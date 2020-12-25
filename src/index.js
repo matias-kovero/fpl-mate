@@ -2,12 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import APIErrorProvider, { APIErrorNotification } from './ApiErrorContext';
+import PremierState from './PremierContext/PremierState';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    //<CookiesProvider>
+    <APIErrorProvider>
+      <PremierState>
+          <App />
+          <APIErrorNotification />
+      </PremierState>
+    </APIErrorProvider>,
+    //</CookiesProvider>,
   document.getElementById('root')
 );
 

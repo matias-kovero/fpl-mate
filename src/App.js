@@ -1,25 +1,24 @@
-import logo from './logo.svg';
+import React, { useContext, useEffect } from 'react';
 import './App.css';
+import PremierContext from './PremierContext/PremierContext';
 
-function App() {
+import Navbar     from './Navbar';
+import MainApp    from './MainApp';
+
+// https://stackoverflow.com/questions/34369951/how-to-get-add-to-home-screen-pop-up-on-site-open-in-mobile-browser
+// Get basic info of team: https://fantasy.premierleague.com/api/entry/1598128/
+
+export default function App() {
+
+  const context = useContext(PremierContext);
+
+  useEffect(() => {
+  }, [ context ]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Navbar />
+      <MainApp team={context.team} context={context} searchProfile={context.GetTeamInfo} />
+    </>
+  )
 }
-
-export default App;

@@ -1,0 +1,14 @@
+{
+  "name": "fplmate",
+  "builds": [
+    { "src": "package.json", "use": "@now/static-build", "config": { "distDir": "build" } }
+  ],
+  "routes": [ 
+    { "src": "/service-worker.js", "headers": { "cache-control": "s-maxage=0" }, "dest": "/service-worker.js" },
+    { "src": "/(.*)", "headers": {"cache-control": "s-maxage=0"}, "dest": "/$1" }
+  ],
+  "regions": ["bru"],
+  "github": {
+    "silent": true
+  }
+}
