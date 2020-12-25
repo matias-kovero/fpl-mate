@@ -162,7 +162,7 @@ ul, ol {
 }
 .search-new-profile, .select-old-profile {
   display: flex;
-  width: 60%;
+  width: 75%;
   margin: auto;
 }
 .search-or {
@@ -179,10 +179,6 @@ ul, ol {
 }
 .image-cell, .info-cell {
   padding: 0.5rem;
-}
-.select-old-profile {
-  width: 60%;
-  margin: auto;
 }
 .list-old-profile {
   display: flex;
