@@ -92,7 +92,7 @@ const RosterTable = ({ arr, type, live, showPlayer }) => {
     // Get bench players
     if (type === 0 && i.multiplier <= 0) {
       value += p.now_cost;
-      points += player_points
+      points += player_points * i.multiplier
       played_value += player_points ? p.now_cost : 0;
       result.push({
         player: p,
@@ -102,7 +102,7 @@ const RosterTable = ({ arr, type, live, showPlayer }) => {
     // Check player type, select only player that are given type.
     else if (p.element_type === type && i.multiplier > 0) {
       value += p.now_cost;
-      points += player_points
+      points += player_points * i.multiplier
       played_value += player_points ? p.now_cost : 0;
       result.push({
         player: p,
