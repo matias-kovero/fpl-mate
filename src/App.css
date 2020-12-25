@@ -31,6 +31,9 @@
 .navbar-collapse {
   flex-grow: 0 !important;
 }
+.navbar-brand {
+  font-family: 'CarterOne';
+}
 .navbar-searchButton {
   color: rgba(255,255,255, .8) !important;
   background-color: rgba(255,255,255,.05) !important;
@@ -654,9 +657,9 @@ img {
   border-bottom: 1px solid rgb(239, 239, 239);
 }
 .element-list-status {width: 10%;}
-.element-list-element {width: 46%;}
-.element-list-price {width: 22%;}
-.element-list-stat {width: 22%;}
+.element-list-element {width: 66%;}
+.element-list-price {width: 15%;}
+.element-list-stat {width: 15%;}
 .element-cell {
   position: relative;
 }
@@ -899,7 +902,7 @@ img {
   box-sizing: border-box;
   margin: 1rem 0px 0px;
   min-width: 0px;
-  flex: 0 0 30%;
+  flex: 0 0 35%;
 }
 .banner-player-role {
   width: fit-content;
@@ -927,6 +930,7 @@ img {
   color: #000;
   border-radius: 5px;
   max-width: 2rem;
+  min-width: 2rem;
 }
 .player-fixtures-mini {
   display: flex;
@@ -935,6 +939,8 @@ img {
 }
 .player-fixtures-mini .fixture-span {
   width: 1.8rem;
+  max-width: 1.8rem;
+  min-width: 1.8rem;
 }
 .fixture-mini-container {
   font-size: .5rem;

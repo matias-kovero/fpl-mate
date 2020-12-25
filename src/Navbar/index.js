@@ -12,7 +12,7 @@ export default function NavBar() {
   
   return (
     <Navbar collapseOnSelect expand="md" variant="dark" sticky="top" className="justify-content-between" style={{backgroundColor: '#37003c'}}>
-      <Navbar.Brand>FPL Mate</Navbar.Brand>
+      <Navbar.Brand className="navbar-brand-title">FPL Mate</Navbar.Brand>
       <Form inline>
         <Button type="submit" className="navbar-searchButton" onClick={clearInfo} disabled={!team}>Find User</Button>
       </Form>
