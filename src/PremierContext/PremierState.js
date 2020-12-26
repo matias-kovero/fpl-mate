@@ -1,16 +1,14 @@
 import React, { useReducer, useEffect } from 'react';
-
 import { SET_SEASON, SET_TEAM, SET_ELEMENTS, SET_FIXTURES, SET_USER, SET_RECENT } from './types';
-
 import PremierContext from './PremierContext';
 import PremierReducer from './PremierReducer';
-
 import useAPIError from '../ApiErrorContext/useAPIError';
 
 const API_BASE_URL = 'https://fpl-server.vercel.app/api';
+
 const initialState = {
-  season: null, //localStorage.getItem('season') ? JSON.parse(localStorage.getItem('season')) : null,
-  team: null, // Saves current team info here
+  season: null,
+  team: null,
   defaultUser: localStorage.getItem('defaultUser'),
   recents: JSON.parse(localStorage.getItem('recentSearches') || "[]" ),
   elements: null,
@@ -22,39 +20,43 @@ const PremierState = ({ children }) => {
   const [ state, dispatch ] = useReducer(PremierReducer, initialState);
 
   useEffect(() => {
-    async function initialInfo(cb) {
-      await cb();
+    async function initialInfo() {
+      await getSeasonInfo();
+      await getFixtures();
     }
-    initialInfo(getSeasonInfo);
-    initialInfo(getFixtures);
+    initialInfo();
     if (state.defaultUser) {
       searchProfile(state.defaultUser);
     }
-  }, []);
+  }, [ ]); // eslint-disable-line react-hooks/exhaustive-deps
+
   
   const getSeasonInfo = async() => {
     const endpoint = `${API_BASE_URL}/bootstrap-static/`;
-    let result = await fetch(endpoint, { method: 'GET' });
-    if ([200].includes(result.status)) {
-      let json = await result.json();
+    let res = await fetch(endpoint, { method: 'GET' });
+    if ([200].includes(res.status)) {
+      let json = await res.json();
       dispatch({ type: SET_SEASON, payload: json });
       dispatch({ type: SET_ELEMENTS, payload: json.elemets });
+      // Save local fallback
       localStorage.setItem('season', JSON.stringify(json));
       return json;
     } else {
-      throw Error(`${result.status} - ${result.statusText}`);
+      addError(`Failed to fetch season info - ${res.status}`);
+      throw Error(`${res.status} - ${res.statusText}`);
     }
   }
 
   const getFixtures = async() => {
     const endpoint = `${API_BASE_URL}/fixtures/`;
-    let result = await fetch(endpoint, { method: 'GET' });
-    if ([200].includes(result.status)) {
-      let json = await result.json();
+    let res = await fetch(endpoint, { method: 'GET' });
+    if ([200].includes(res.status)) {
+      let json = await res.json();
       dispatch({ type: SET_FIXTURES, payload: json });
       return json;
     } else {
-      throw Error(`${result.status} - ${result.statusText}`);
+      addError(`Failed to get fixtures -  ${res.status}`)
+      throw Error(`${res.status} - ${res.statusText}`);
     }
   }
 

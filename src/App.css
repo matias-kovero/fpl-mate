@@ -150,7 +150,27 @@ ul, ol {
     justify-content: space-between;
   }
 }
-
+.rank-change-positive { color: #02894e }
+.rank-change-negative { color: #80072d }
+.rank-change-neutral { color: #008790 }
+.gameweek-wrapper {
+  display: flex;
+  align-content: space-evenly;
+  gap: 1rem;
+}
+.gameweek-info, .gameweek-points {
+  flex: 1 1;
+}
+.gameweek-points {
+  text-align: center;
+  background-color: #a9a9a933;
+  border-radius: 10px;
+}
+.gameweek-user-points {
+  /* font-family: 'CarterOne'; */
+  font-size: 2.5rem;
+  font-weight: 700;
+}
 /** END OF USERINFO CSS */ 
 
 /** SEARCH PROFILE CSS */

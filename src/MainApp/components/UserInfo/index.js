@@ -9,14 +9,17 @@ import usePremierData from '../../usePremierData';
 export default function UserInfo({ user }) {
   const { getFavouriteShirt, currentGameweek } = usePremierData();
   const [ shirt, setShirt ] = useState('');
+  const [ rankChange, setRank ] = useState({ num: '0', type: 'neutral' });
 
   // Update players favourite teams shirt.
   useEffect(() => {
     if (user) {
       setShirt(getFavouriteShirt(user));
+      setRank(userRankChange(user.leagues));
     }
     return () => {
       setShirt(null);
+      setRank(null);
     }
   }, [ user ]);
 
@@ -26,27 +29,39 @@ export default function UserInfo({ user }) {
         <div>
           <h3>{user.player_first_name} {user.player_last_name} <small>({user.player_region_iso_code_long})</small></h3>
           <p>{user.name} &#183; ({user.summary_overall_points}p)</p>
-          <h5><small>Overall Live Rank: <b>{user.summary_overall_rank.toLocaleString('fin')}</b> {overallPosChange(user.leagues)}</small></h5>
+          <h5><small>Overall Rank: <b>{user.summary_overall_rank.toLocaleString('fin')}</b> <span className={`rank-change-${rankChange.type}`}>{rankChange.num}</span></small></h5>
         </div>
         <div className="team-shirt">
           <img src={shirt}></img>
         </div>
       </div>
       <div className="default-container">
-        <h5>{currentGameweek.name}</h5>
-        <div>
-          <small>Value: £{user.last_deadline_value/10}m</small>
-        </div>
-        <div>
-          <small>Bank: £{user.last_deadline_bank/10}m</small>
+        <div className="gameweek-wrapper">
+          <div className="gameweek-info">
+            <div><h5>{currentGameweek.name}</h5></div>
+            <div>
+              <div><small>Value: £{user.last_deadline_value/10}m</small></div>
+              <div><small>Bank: £{user.last_deadline_bank/10}m</small></div>
+            </div>
+          </div>
+          <div className="gameweek-points">
+            <div className="gameweek-user-points">{user.summary_event_points}</div>
+            <div><b><small>Points</small></b></div>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-const currentGameweek = (id, context) => {
-  return context.season.events.find(t => t.id === id).name;
+const userRankChange = (leagues) => {
+  let overall = leagues.classic.find(league => league.name === "Overall");
+  let diff = Math.abs(overall.entry_rank - overall.entry_last_rank).toLocaleString('fin'); // Uses space as thousand delimeter
+  let logo = '-';
+  let type = 'neutral';
+  if (overall.entry_rank < overall.entry_last_rank) { logo = '↑';  type = 'positive' }
+  else if (overall.entry_rank > overall.entry_last_rank) { logo = '↓'; type = 'negative' }
+  return { num: `${logo}${diff}`, type };
 }
 
 const overallPosChange = (leagues) => {
