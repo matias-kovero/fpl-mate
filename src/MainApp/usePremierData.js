@@ -227,11 +227,12 @@ const usePremierData = () => {
       console.log(player.web_name, 'has', player.event_points, 'points!',`(${points} + ${bonus})`);
       // Player has bonus points and they are added to event points.
       if (bonus && points === player.event_points) {
-        console.log(player.web_name, games);
-        if (!games.gameweek[0].finished && !games.gameweek[0].finished_provisional) return;
-        // Remove bonus points from overall points.
-        points = (points - bonus);
-        console.log(player.web_name, 'updated points', points, `(${points} + ${bonus})`);
+        // console.log(player.web_name, games);
+        if (games.gameweek[0].finished && games.gameweek[0].finished_provisional) {
+          // Remove bonus points from overall points.
+          points = (points - bonus);
+        };
+        //console.log(player.web_name, 'updated points', points, `(${points} + ${bonus})`);
       }
       // Add player to right array
       datapath.players.push({
