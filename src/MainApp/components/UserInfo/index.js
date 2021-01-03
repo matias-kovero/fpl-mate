@@ -6,7 +6,7 @@ import usePremierData from '../../usePremierData';
  * @param {Object} props
  * @param {import('../../../PremierContext/premier').EntryObject} props.user - Current users data 
  */
-export default function UserInfo({ user }) {
+export default function UserInfo({ user, points }) {
   const { getFavouriteShirt, currentGameweek } = usePremierData();
   const [ shirt, setShirt ] = useState('');
   const [ rankChange, setRank ] = useState({ num: '0', type: 'neutral' });
@@ -45,7 +45,7 @@ export default function UserInfo({ user }) {
             </div>
           </div>
           <div className="gameweek-points">
-            <div className="gameweek-user-points">{user.summary_event_points}</div>
+            <div className="gameweek-user-points">{points}</div>
             <div><b><small>Points</small></b></div>
           </div>
         </div>
@@ -62,18 +62,4 @@ const userRankChange = (leagues) => {
   if (overall.entry_rank < overall.entry_last_rank) { logo = '↑';  type = 'positive' }
   else if (overall.entry_rank > overall.entry_last_rank) { logo = '↓'; type = 'negative' }
   return { num: `${logo}${diff}`, type };
-}
-
-const overallPosChange = (leagues) => {
-  let league = leagues.classic.find(league => league.name === "Overall");
-  let diff = Math.abs(league.entry_rank - league.entry_last_rank).toLocaleString('fin');
-  let logo = "";
-  if (league.entry_rank < league.entry_last_rank) { // Users ranks has gone down :)
-    logo = "↑";
-  }
-  else if (league.entry_rank > league.entry_last_rank) { // User rank has gone up. -> 
-    logo =  "↓";
-  } else logo = "-"; // No change on user ranking!
-
-  return `${logo}${diff}`;
 }

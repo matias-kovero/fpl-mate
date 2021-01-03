@@ -157,6 +157,7 @@ ul, ol {
   display: flex;
   align-content: space-evenly;
   gap: 1rem;
+  width: 100%;
 }
 .gameweek-info, .gameweek-points {
   flex: 1 1;
@@ -286,6 +287,9 @@ ul, ol {
     display: flex;
     align-items: center;
     text-align: left;
+  }
+  .cell-small {
+    flex-basis: calc(70% - 1rem) !important;
   }
 }
 .players-container {
@@ -683,6 +687,10 @@ img {
   font-weight: bold;
   font-size: smaller;
   padding: 0.5rem;
+}
+.element-cell-pr {
+  font-size: xx-small;
+  padding: 0.4rem;
 }
 .element-cell::after {
   content: "";

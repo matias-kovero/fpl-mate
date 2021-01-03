@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 //import UserInfo   from '../../MainPage/Profile/TeamInfo';
 import PremierContext from '../../PremierContext';
+import usePremierData from '../usePremierData';
 
 import UserInfo   from '../components/UserInfo';
 import UserTeam   from '../components/UserTeam';
@@ -16,15 +17,19 @@ export default function Profile({ user }) {
 
     }
   }, [ user ])*/
-  //
+
+  /**
+   * Should we load all needed information already here. And only give components their needed info.
+   * Load:
+   * - Users picks
+   * - Live data (able to calculate player points + BPS, before the match ends!)
+   * - Team Fixtures
+   */
   return (
     <div className="layout-wrapper">
       { user && user.id ? 
-        <div className="layout-main">
-          <UserInfo user={user} />
-          <UserTeam team={user} />
-          {/* <PitchView user={user} context={context} /> */}
-        </div> : ( user && user.err ? 
+          <ActiveProfile user={user} />
+          : ( user && user.err ? 
           <div className="layout-main">
             <div className="content-container">
               <h5>{user.err}</h5>
@@ -42,6 +47,69 @@ export default function Profile({ user }) {
   )
 }
 
+const ActiveProfile = ({ user }) => {
+  const { fixtures } = useContext(PremierContext);
+  const { useGetPick, useLiveData, getPlayerByElement, getTeamById, calculateRoster } = usePremierData();
+  const { data: pickData, loading: pickLoading } = useGetPick(user.id, user.current_event);
+  const { data: liveData, loading: liveLoading } = useLiveData(user.current_event);
+  const [ roster, setRoster ] = useState([]);
+  // This should contain all calculated information. In the future, roster, live & teams are obsolete!
+  const [ points, setPoints ] = useState(0);
+
+  useEffect(() => {
+    if (pickData && liveData) {
+      console.log("Stuff loaded...  It's gameweek", user.current_event);
+      loadMyStuff();
+    }
+  }, [pickData, liveData, user]);
+
+  const loadMyStuff = () => {
+    // Creating own objects
+    let smallFixtures = fixtures.filter(f => f.event >= user.current_event && f.event < (user.current_event + 6)); // To optimize, cut old gameweeks from the array.
+    let rawTeams = [];  // Save teams codes, to fetch team info later.
+    let players = [];   // List of players and their additional info.
+    let localTeams = [];     // List of teams and their additional info.
+    let countedArr = { points: 0, data: [] };
+
+    pickData.picks.forEach(p => {
+      let player = getPlayerByElement(p.element);
+      players.push({ player, ...p });
+      /**
+       * We could optimize. 
+       * Check if team is found in object array by its id. 
+       * If not, search team info and add to array.
+       */
+      if (!rawTeams.includes(player.team)) rawTeams.push(player.team);
+    });
+
+    rawTeams.forEach(t => {
+      let team = getTeamById(t);
+      // It's gameweek: user.current_event.
+      let matches = smallFixtures.filter(f => f.team_a === team.id || f.team_h === team.id );
+      let gameweek = matches.filter(f => f.event === user.current_event); // Not 100% that only 1 match on gameweek!!!
+      localTeams.push({ ...team, gameweek });
+    });
+
+    console.log('Player data:', players);
+    console.log('Raw team data:', rawTeams);
+    console.log('Teams data:', localTeams);
+
+    countedArr = calculateRoster(pickData.picks, liveData, localTeams);
+    setRoster(countedArr.data);
+    setPoints(countedArr.points);
+  }
+
+
+  return (
+    <div className="layout-main">
+      <UserInfo user={user} points={points} />
+      {roster.length && <UserTeam roster={roster} />}
+    </div>
+  )
+
+}
+
+
 const NoProfilePage = ({ }) => {
   const { searchProfile, recentSearches } = useContext(PremierContext);
   const img_base = "https://fpl-server.vercel.app/dist/img/shirts/standard/shirt_0";
@@ -54,7 +122,6 @@ const NoProfilePage = ({ }) => {
 
   const onSearch = () => {
     if (!id || id.length <= 0 || isNaN(id)) return null;
-    console.log('Searching with ID:', id);
     searchProfile(id);
   }
 
@@ -114,6 +181,10 @@ const NoProfilePage = ({ }) => {
   )
 }
 
+/**
+ * Recent searched user
+ * @param {Object} props 
+ */
 const RecentSearch = ({ user }) => {
   // user: {id, name, owner}
 

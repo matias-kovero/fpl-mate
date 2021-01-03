@@ -6,16 +6,18 @@ import usePremierData from '../../usePremierData';
  * @param {import('../../../PremierContext/premier').ElementFixtures} props.data - Players fixture data
  */
 export default function Fixtures({ data, amount, mini }) {
-  const { getTeamById } = usePremierData();
+  const { getTeamById, currentGameweek } = usePremierData();
   // data = { fixtures, history, history_past }
   const [ fixtures, setFixture ] = useState([]);
 
   useEffect(() => {
     // No league stats on context!
     if (data) {
-      setFixture(data.fixtures);
+      // Remove this gameweeks fixtures...
+      let upcoming = data.fixtures.filter(f => f.event !== currentGameweek.id);
+      setFixture(upcoming);
     }
-  }, [ data ]);
+  }, [ data, currentGameweek ]);
 
   return (
     <div className={`player-fixtures${mini ? `-mini`: ''}`}>
