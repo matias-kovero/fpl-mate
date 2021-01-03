@@ -221,14 +221,17 @@ const usePremierData = () => {
        * We could get bonus live, and add it to points. Works before API adds own bps tomorrow.
        * Then we need to remove bonus?
        */
+      let games = matches.find(t => t.id === player.team);
       let points = getPointsFromLiveData(player.id, live);
-      let bonus = getPlayerBonusPoints(player.id, matches.find(t => t.id === player.team));
-      //console.log(player.web_name, 'has', player.event_points, 'points!',`(${points} + ${bonus})`);
+      let bonus = getPlayerBonusPoints(player.id, games);
+      console.log(player.web_name, 'has', player.event_points, 'points!',`(${points} + ${bonus})`);
       // Player has bonus points and they are added to event points.
       if (bonus && points === player.event_points) {
+        console.log(player.web_name, games);
+        if (!games.gameweek[0].finished && !games.gameweek[0].finished_provisional) return;
         // Remove bonus points from overall points.
         points = (points - bonus);
-        //console.log(player.web_name, 'updated points', points, `(${points} + ${bonus})`);
+        console.log(player.web_name, 'updated points', points, `(${points} + ${bonus})`);
       }
       // Add player to right array
       datapath.players.push({
