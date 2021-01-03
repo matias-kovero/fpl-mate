@@ -177,15 +177,14 @@ const usePremierData = () => {
       let twopoints = players.filter(p => p.value === second_points );
       let onepoints = players.filter(p => p.value === third_points );
 
-      if (threepoints.find(i => i.element === id)) {
-        points += 3;
-        return;
-      } else if (twopoints.find(i => i.element === id)) {
-        points += 2;
-        return;
+      // Player has most bps -> Give 3 points
+      if (threepoints.find(i => i.element === id)) points += 3;
+      else if (twopoints.find(i => i.element === id)) {
+        // 2 players got 1st, so only give 1 point to 2nd
+        if (threepoints.length < 2) points += 2;
+        else if (threepoints.length < 3) points += 1;
       } else if (onepoints.find(i => i.element === id)) {
-        points += 1;
-        return;
+        if (threepoints.length < 2 || twopoints.length < 2) points += 1;
       }
       //console.log(threepoints.length, 'player got 3 points!', most_points);
       //console.log('BPS:', players);
@@ -227,11 +226,14 @@ const usePremierData = () => {
       console.log(player.web_name, 'has', player.event_points, 'points!',`(${points} + ${bonus})`);
       // Player has bonus points and they are added to event points.
       if (bonus && points === player.event_points) {
+
         // console.log(player.web_name, games);
         if (games.gameweek[0].finished && games.gameweek[0].finished_provisional) {
           // Remove bonus points from overall points.
           points = (points - bonus);
-        };
+        } else {
+          console.log(player.web_name, 'game not ended', games.gameweek[0]);
+        }
         //console.log(player.web_name, 'updated points', points, `(${points} + ${bonus})`);
       }
       // Add player to right array

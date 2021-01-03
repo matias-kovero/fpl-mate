@@ -24,7 +24,7 @@ export default function Fixtures({ data, amount, mini }) {
       {fixtures.slice(0, amount ? amount : 5).map((fix, i) => {
         let team = fix.is_home ? getTeamById(fix.team_a) : getTeamById(fix.team_h);
         return ( 
-          <div key={i} className={`fixture-bg${fix.difficulty} fixture-span`}>
+          <div key={i} className={`fixture-bg${fix.difficulty} fixture-span ${fix.event == (currentGameweek.id+1) ? 'next-week' : '' }`}>
             { mini ? 
             <div className="fixture-mini-container">
               <div className="opponent-name">{team.short_name}</div>

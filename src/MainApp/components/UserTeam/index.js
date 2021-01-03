@@ -98,6 +98,20 @@ const RosterTable = ({ showPlayer, row }) => {
   )
 }
 
+/**
+ * Returns string with all set-piece information.
+ * P = Penalty,
+ * F = Freekick,
+ * C = Corner,
+ * @param {import('../../../PremierContext/premier').Element} player 
+ */
+const setPieceString = (player) => {
+  let arr = [];
+  if (player.penalties_order) arr.push('P');
+  if (player.direct_freeckicks_order) arr.push('F');
+  if (player.corners_and_indirect_freekicks_order) arr.push('C');
+  if (arr.length) return `( ${arr.join()} )`;
+}
 
 /**
  * 
@@ -142,7 +156,7 @@ const RosterTableRow = ({ data, showPlayer }) => {
             </picture>
           </div>
           <div className="element-media-body">
-            <div className="element-body-name">{data.info.is_captain ? <b>[C] </b>: (data.info.is_vice_captain ? <b>[V] </b>:null)}{data.player.web_name}</div>
+            <div className="element-body-name">{data.info.is_captain ? <b>[C] </b>: (data.info.is_vice_captain ? <b>[V] </b>:null)}{data.player.web_name} <small>{setPieceString(data.player)}</small></div>
             <div className="element-body-info">
               <Fixtures data={fixture} amount={5} mini />
             </div>

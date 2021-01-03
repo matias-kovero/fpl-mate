@@ -955,11 +955,15 @@ img {
   border-radius: 5px;
   max-width: 2rem;
   min-width: 2rem;
+  position: relative;
 }
 .player-fixtures-mini {
   display: flex;
   gap: .1rem;
   text-align: center;
+}
+.player-fixtures-mini:last-of-type .next-week {
+  margin-right: .5rem;
 }
 .player-fixtures-mini .fixture-span {
   width: 1.8rem;
@@ -988,4 +992,14 @@ img {
 }
 .fixture-bg5 {
   background-color: #80072d;
+}
+.next-week::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -5px;
+  bottom: 0;
+  display: block;
+  width: 2px;
+  background: rgb(239, 239, 239);
 }
