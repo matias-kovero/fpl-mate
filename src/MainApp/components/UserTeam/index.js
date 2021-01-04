@@ -110,7 +110,7 @@ const setPieceString = (player) => {
   if (player.penalties_order) arr.push('P');
   if (player.direct_freeckicks_order) arr.push('F');
   if (player.corners_and_indirect_freekicks_order) arr.push('C');
-  if (arr.length) return `( ${arr.join()} )`;
+  if (arr.length) return `( ${arr.join(', ')} )`;
 }
 
 /**

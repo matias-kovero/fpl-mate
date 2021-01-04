@@ -144,7 +144,7 @@ const usePremierData = () => {
    * @param {Object} match 
    */
   function getPlayerBonusPoints(id, match) {
-    // Players has no matches on the current gameweek.
+    // Player has no matches on the current gameweek.
     if (!match.gameweek) return null;
     let points = 0;
     // Looping every match player has on current gameweek
@@ -170,27 +170,22 @@ const usePremierData = () => {
       let most_points = Math.max.apply(Math, players.map(o => o.value));
       let second_points = Math.max.apply(Math, players.map(o => o.value != most_points ? o.value : null ));
       let third_points = Math.max.apply(Math, players.map(o => o.value != most_points && o.value != second_points ? o.value : null ));
-      
-      //console.log(most_points, second_points, third_points);
 
       let threepoints = players.filter(p => p.value === most_points );
       let twopoints = players.filter(p => p.value === second_points );
       let onepoints = players.filter(p => p.value === third_points );
 
-      // Player has most bps -> Give 3 points
-      if (threepoints.find(i => i.element === id)) points += 3;
+      // Give points to top 3 players
+      if (threepoints.find(i => i.element === id)) points += 3; 
       else if (twopoints.find(i => i.element === id)) {
-        // 2 players got 1st, so only give 1 point to 2nd
-        if (threepoints.length < 2) points += 2;
-        else if (threepoints.length < 3) points += 1;
+        if (threepoints.length < 2) points += 2;      // 1 player was 1st, give 2 points
+        else if (threepoints.length < 3) points += 1; // 2 players where 1st, give 1 point
       } else if (onepoints.find(i => i.element === id)) {
+        // If under 3 players got points, give 1 point.
         if (threepoints.length < 2 || twopoints.length < 2) points += 1;
       }
-      //console.log(threepoints.length, 'player got 3 points!', most_points);
-      //console.log('BPS:', players);
     });
     return points;
-    //console.log(id, match);
   }
 
   /**
@@ -223,7 +218,7 @@ const usePremierData = () => {
       let games = matches.find(t => t.id === player.team);
       let points = getPointsFromLiveData(player.id, live);
       let bonus = getPlayerBonusPoints(player.id, games);
-      console.log(player.web_name, 'has', player.event_points, 'points!',`(${points} + ${bonus})`);
+      // console.log(player.web_name, 'has', player.event_points, 'points!',`(${points} + ${bonus})`);
       // Player has bonus points and they are added to event points.
       if (bonus && points === player.event_points) {
 
@@ -234,7 +229,6 @@ const usePremierData = () => {
         } else {
           console.log(player.web_name, 'game not ended', games.gameweek[0]);
         }
-        //console.log(player.web_name, 'updated points', points, `(${points} + ${bonus})`);
       }
       // Add player to right array
       datapath.players.push({

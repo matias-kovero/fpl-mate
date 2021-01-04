@@ -954,11 +954,24 @@ img {
 .role-bg4 {
   background-color: #e90052;
 }
-.player-fixtures {
+
+.player-fixtures, .player-fixtures-mini {
+  display: flex;
+}
+
+.player-fixtures .next-week, .player-fixtures .future-weeks {
   display: flex;
   gap: .5rem;
   text-align: center;
   font-size: .7rem;
+}
+.player-fixtures-mini .next-week, .player-fixtures-mini .future-weeks {
+  display: flex;
+  gap: .1rem;
+  text-align: center;
+}
+.player-fixtures .next-week, .player-fixtures-mini .next-week {
+  position: relative;
 }
 .fixture-span {
   color: #000;
@@ -974,6 +987,11 @@ img {
 }
 .player-fixtures-mini:last-of-type .next-week {
   margin-right: .5rem;
+  position: relative;
+}
+.player-fixtures:last-of-type .next-week {
+  margin-right: .5rem;
+  position: relative;
 }
 .player-fixtures-mini .fixture-span {
   width: 1.8rem;
@@ -1011,5 +1029,5 @@ img {
   bottom: 0;
   display: block;
   width: 2px;
-  background: rgb(239, 239, 239);
+  background: #dedede70;
 }
