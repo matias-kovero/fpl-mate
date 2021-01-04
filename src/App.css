@@ -168,6 +168,16 @@ ul, ol {
   flex: 1 1;
   padding: 1rem;
 }
+.gameweek-info-wrapper {
+  display: flex;
+  align-content: space-evenly;
+  gap: 1rem;
+  width: 100%;
+}
+.gameweek-info-container {
+  flex: 1 1;
+  text-align: center;
+}
 .badge-banner {
   flex: 1 1;
   padding: 1rem;

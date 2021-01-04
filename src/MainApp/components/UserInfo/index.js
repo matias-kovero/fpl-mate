@@ -9,9 +9,10 @@ import PremierContext from '../../../PremierContext';
  */
 export default function UserInfo({ user, points }) {
   const { season: { total_players } } = useContext(PremierContext);
-  const { getFavouriteShirt, currentGameweek } = usePremierData();
+  const { getFavouriteShirt, currentGameweek, getPlayerByElement } = usePremierData();
   const [ shirt, setShirt ] = useState('');
   const [ rankChange, setRank ] = useState({ num: '0', type: 'neutral' });
+  const mostCaptained = getPlayerByElement(currentGameweek.most_captained);
 
   // Update players favourite teams shirt.
   useEffect(() => {
@@ -29,13 +30,17 @@ export default function UserInfo({ user, points }) {
     <div className="user-info-wrapper">
       <div className="default-container">
         <div>
-          <h3>{user.player_first_name} {user.player_last_name} <small>({user.player_region_iso_code_long})</small></h3>
-          <span>{user.name} &#183; ({user.summary_overall_points}p)</span>
+          <div>
+            <span style={{fontWeight: '700', fontSize: 'x-large'}}>{user.player_first_name} {user.player_last_name} <small>({user.player_region_iso_code_long})</small></span>
+          </div>
+          <div style={{marginTop: '-0.5rem'}}>
+            <p>{user.name} &#183; ({user.summary_overall_points}p)</p>
+          </div>
           <div>
             <span>Overall Rank: <b>{user.summary_overall_rank.toLocaleString('fin')}</b> <span className={`rank-change-${rankChange.type}`}>{rankChange.num}</span></span>
           </div>
           <div>
-            <span><small>GW Rank: <b>{user.summary_event_rank.toLocaleString('fin')}</b> <small>Top: {Math.round(total_players / user.summary_event_rank)}%</small></small></span>
+            <span><small>GW Rank: <b>{user.summary_event_rank.toLocaleString('fin')}</b> <small style={{verticalAlign: 'text-bottom'}}>Top: { Math.round(user.summary_event_rank / total_players*100)}%</small></small></span>
           </div>
         </div>
         <div className="team-shirt">
@@ -47,8 +52,21 @@ export default function UserInfo({ user, points }) {
           <div className="badge-banner">
             <div className="badge-banner-container">
               <div className="badge-banner-body">
-                <div><small>Value: £{user.last_deadline_value/10}m</small></div>
-                <div><small>Bank: £{user.last_deadline_bank/10}m</small></div>
+                <div className="gameweek-info-wrapper">
+                  <div className="gameweek-info-container">
+                    <div style={{fontWeight: '700'}}>
+                      <div><span style={{fontWeight: '700', fontSize: 'small'}}>Average</span></div>
+                      <div><span style={{fontWeight: '700'}}>{currentGameweek.average_entry_score}</span></div>
+                    </div>
+                  </div>
+                  <div className="gameweek-info-container">
+                    <div>
+                      <div><span style={{fontWeight: '700', fontSize: 'small'}}>Highest</span></div>
+                      <div><span style={{fontWeight: '700'}}>{currentGameweek.highest_score}</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div><span><small style={{fontSize: 'xx-small'}}>Most Captained: <b>{mostCaptained.web_name}</b></small></span></div>
               </div>
               <div className="badge-banner-title">GW {currentGameweek.id}</div>
             </div>
