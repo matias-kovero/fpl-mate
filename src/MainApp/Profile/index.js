@@ -62,7 +62,7 @@ const ActiveProfile = ({ user }) => {
 
   useEffect(() => {
     if (pickData && liveData) {
-      console.log("Stuff loaded...  It's gameweek", user.current_event);
+      //console.log("Stuff loaded...  It's gameweek", user.current_event);
       loadMyStuff();
     }
   }, [pickData, liveData, user]);
@@ -94,9 +94,9 @@ const ActiveProfile = ({ user }) => {
       localTeams.push({ ...team, gameweek });
     });
 
-    console.log('Player data:', players);
-    console.log('Raw team data:', rawTeams);
-    console.log('Teams data:', localTeams);
+    //console.log('Player data:', players);
+    //console.log('Raw team data:', rawTeams);
+    //console.log('Teams data:', localTeams);
 
     countedArr = calculateRoster(pickData.picks, liveData, localTeams);
     setRoster(countedArr.data);
@@ -107,7 +107,7 @@ const ActiveProfile = ({ user }) => {
   return (
     <div className="layout-main">
       <UserInfo user={user} points={points} />
-      {roster.length && <UserTeam roster={roster} />}
+      {!!roster.length && <UserTeam roster={roster} />}
     </div>
   )
 
@@ -118,16 +118,6 @@ const NoProfilePage = ({ }) => {
   const { searchProfile, recentSearches } = useContext(PremierContext);
   const img_base = "https://fpl-server.vercel.app/dist/img/shirts/standard/shirt_0";
   const [ id, setId ] = useState('');
-
-  const onChange = (e) => {
-    let value = e.target.value;
-    setId(value);
-  }
-
-  const onSearch = () => {
-    if (!id || id.length <= 0 || isNaN(id)) return null;
-    searchProfile(id);
-  }
 
   return (
     <div className="no-profile-wrapper">
