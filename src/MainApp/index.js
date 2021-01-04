@@ -3,6 +3,7 @@ import { Tab, Nav, Spinner } from 'react-bootstrap';
 
 import Profile from './Profile';
 import Fixtures from './Fixtures';
+import Leagues from './Leagues';
 
 /**
  * 
@@ -42,7 +43,7 @@ export default function MainApp({ team, season, context, searchProfile }) {
           <Fixtures />
         </Tab.Pane>
         <Tab.Pane eventKey="Leagues">
-          
+          <Leagues user={team} />
         </Tab.Pane>
       </Tab.Content> 
       : <LoadingScreen /> }

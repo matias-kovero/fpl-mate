@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import usePremierData from '../../usePremierData';
+import PremierContext from '../../../PremierContext';
 
 /**
  * Preview users data
@@ -7,6 +8,7 @@ import usePremierData from '../../usePremierData';
  * @param {import('../../../PremierContext/premier').EntryObject} props.user - Current users data 
  */
 export default function UserInfo({ user, points }) {
+  const { season: { total_players } } = useContext(PremierContext);
   const { getFavouriteShirt, currentGameweek } = usePremierData();
   const [ shirt, setShirt ] = useState('');
   const [ rankChange, setRank ] = useState({ num: '0', type: 'neutral' });
@@ -28,25 +30,36 @@ export default function UserInfo({ user, points }) {
       <div className="default-container">
         <div>
           <h3>{user.player_first_name} {user.player_last_name} <small>({user.player_region_iso_code_long})</small></h3>
-          <p>{user.name} &#183; ({user.summary_overall_points}p)</p>
-          <h5><small>Overall Rank: <b>{user.summary_overall_rank.toLocaleString('fin')}</b> <span className={`rank-change-${rankChange.type}`}>{rankChange.num}</span></small></h5>
+          <span>{user.name} &#183; ({user.summary_overall_points}p)</span>
+          <div>
+            <span>Overall Rank: <b>{user.summary_overall_rank.toLocaleString('fin')}</b> <span className={`rank-change-${rankChange.type}`}>{rankChange.num}</span></span>
+          </div>
+          <div>
+            <span><small>GW Rank: <b>{user.summary_event_rank.toLocaleString('fin')}</b> <small>Top: {Math.round(total_players / user.summary_event_rank)}%</small></small></span>
+          </div>
         </div>
         <div className="team-shirt">
           <img src={shirt}></img>
         </div>
       </div>
-      <div className="default-container">
+      <div className="default-container-transparent">
         <div className="gameweek-wrapper">
-          <div className="gameweek-info">
-            <div><h5>{currentGameweek.name}</h5></div>
-            <div>
-              <div><small>Value: £{user.last_deadline_value/10}m</small></div>
-              <div><small>Bank: £{user.last_deadline_bank/10}m</small></div>
+          <div className="badge-banner">
+            <div className="badge-banner-container">
+              <div className="badge-banner-body">
+                <div><small>Value: £{user.last_deadline_value/10}m</small></div>
+                <div><small>Bank: £{user.last_deadline_bank/10}m</small></div>
+              </div>
+              <div className="badge-banner-title">GW {currentGameweek.id}</div>
             </div>
           </div>
-          <div className="gameweek-points">
-            <div className="gameweek-user-points">{points}</div>
-            <div><b><small>Points</small></b></div>
+          <div className="badge-banner">
+            <div className="badge-banner-container">
+              <div className="badge-banner-body">
+                <div className="gameweek-user-points">{points}</div>
+              </div>
+              <div className="badge-banner-title">Points</div>
+            </div>
           </div>
         </div>
       </div>

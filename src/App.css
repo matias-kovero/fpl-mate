@@ -161,9 +161,38 @@ ul, ol {
   align-content: space-evenly;
   gap: 1rem;
   width: 100%;
+  /* background-color: #f1f1f1; */
+  background-color: #027d47;
 }
 .gameweek-info, .gameweek-points {
   flex: 1 1;
+  padding: 1rem;
+}
+.badge-banner {
+  flex: 1 1;
+  padding: 1rem;
+  text-align: center;
+}
+.badge-banner-container {
+  border-radius: .7rem;
+  background: linear-gradient(145deg, #027140, #02864c);
+  box-shadow: 5px 5px 13px #015530, -5px -5px 13px #03a55e;
+}
+.badge-banner-body {
+  /* background-color: #027d47;*/
+  padding: 1rem;
+  color: #FFF;
+  height: 6rem;
+}
+.badge-banner-title {
+  background-color: #01fc7a;
+  font-size: medium;
+  font-weight: 700;
+  border-bottom-left-radius: .7rem;
+  border-bottom-right-radius: .7rem;
+}
+.gameweek-info {
+  background-color: #e7e7e7;
 }
 .gameweek-points {
   text-align: center;
@@ -337,6 +366,11 @@ ul, ol {
 .roster-list-element {width: 68%;}
 .roster-list-price {width: 22%;}
 .roster-list-stat {width: 22%;}
+.player-points-info {
+  font-size: smaller;
+  font-weight: 500;
+  vertical-align: text-bottom;
+}
 /** END OF ROSTER CSS */
 
 /** TEAM PREVIEW CSS */
@@ -505,7 +539,11 @@ img {
 .default-container {
   background-color: #ebebe6;
   padding: 1em;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+.default-container-transparent {
   position: relative;
   overflow: hidden;
 }
@@ -860,6 +898,13 @@ img {
     display: flex;
     -webkit-box-pack: justify;
     justify-content: space-between;
+  }
+  .default-container-transparent {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: calc(50% - 1rem);
+    align-items: center;
+    text-align: left;
   }
 }
 
