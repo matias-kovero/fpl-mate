@@ -82,6 +82,9 @@ ul, ol {
   margin-top: 0;
   margin-bottom: 0;
 }
+.dropdown-item {
+  padding: .25rem 1rem !important;
+}
 /* END OF BOOTSTRAP MODIFICATIONS */
 
 /** LOADING SCREEN */
@@ -259,6 +262,13 @@ ul, ol {
   .search-new-profile { width: 100%; }
   .search-or { width: 95%;}
   .select-old-profile { width: 100%; }
+}
+.search-option-owner {
+  font-size: small;
+  font-weight: 700;
+}
+.search-option-team {
+  font-size: x-small;
 }
 /** END OF SEARCH PROFILE */
 

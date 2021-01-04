@@ -1,5 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+
+import SearchUser from '../components/SearchUser';
 //import UserInfo   from '../../MainPage/Profile/TeamInfo';
 import PremierContext from '../../PremierContext';
 import usePremierData from '../usePremierData';
@@ -149,7 +153,9 @@ const NoProfilePage = ({ }) => {
               <small>Please search a profile</small>
             </div>
             <div>
-              <InputGroup className="mt-3" size="sm">
+              <SearchUser searchProfile={searchProfile} />
+            {/*<InputGroup className="mt-3" size="sm">
+                <SearchUser searchProfile={searchProfile} />
                 <FormControl 
                   placeholder="Team ID"
                   aria-label="Team ID"
@@ -160,7 +166,7 @@ const NoProfilePage = ({ }) => {
                 <InputGroup.Append>
                   <Button variant="outline-success" onClick={onSearch}>Search</Button>
                 </InputGroup.Append>
-              </InputGroup>
+              </InputGroup>*/}
             </div>
           </div>
         </div>
@@ -216,6 +222,8 @@ const RecentSearch = ({ user }) => {
     </div>
   )
 }
+
+
 
 /* Default TAB ELEMENT
 import React from 'react';
