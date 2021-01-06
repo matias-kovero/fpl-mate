@@ -11,9 +11,29 @@ import {
   Filter,
   useDatatableLifecycle,
   shouldTableUpdate
-} from 'react-bs-datatable'
-
+} from 'react-bs-datatable';
+import { makeClasses } from 'react-bs-datatable/lib/helpers/object';
 import usePremierData from '../../usePremierData';
+
+const customLabels = {
+  first: '<<',
+  last: '>>',
+  prev: '<',
+  next: '>',
+  noResults: 'Whoops, something when wrong.'
+};
+
+const classes = {
+  //paginationCol: 'player-suggestion-pagination',
+  table: 'element-suggestion-table',
+  theadRow: 'element-table-heading',
+  theadCol: 'element-table-heading-col',
+  tbodyRow: 'element-table-row',
+  tbodyCol: 'element-table-col',
+  controlRow: 'element-table-control',
+  paginationCol: 'element-table-pagination',
+  paginationButton: 'element-table-button'
+};
 
 const CustomTable = React.memo(props => {
   const {
@@ -101,7 +121,7 @@ const CustomTable = React.memo(props => {
             }}
           />
         </Components.Col>
-        <Components.Col xs={12} md={4} className="text-right">
+        <Components.Col xs={12} md={4} className="text-right element-table-pagination">
           <Pagination
             classes={classes}
             data={data}
@@ -121,23 +141,6 @@ const CustomTable = React.memo(props => {
   );
 }, shouldTableUpdate);
 
-const customLabels = {
-  first: '<<',
-  last: '>>',
-  prev: '<',
-  next: '>',
-  noResults: 'Whoops, something when wrong.'
-};
-
-const classes = {
-  paginationCol: 'player-suggestion-pagination',
-  table: 'element-suggestion-table',
-  theadRow: 'element-table-heading',
-  theadCol: 'element-table-heading-col',
-  tbodyRow: 'element-table-row',
-  tbodyCol: 'element-table-col'
-};
-
 const tableHeaders = [
   { prop: 'total_points', title: 'Points', sortable: true,
     headerCell: (icon, sortedProp) => {
@@ -146,7 +149,7 @@ const tableHeaders = [
       return (
         <>
           {`P`}
-          <span className="element-list-status">{icon}</span>
+          <span className="element-list-status"><small>{icon}</small></span>
         </>
       )
     }
@@ -160,7 +163,8 @@ const tableHeaders = [
     )
   }, sortable: true },
   { prop: 'now_cost', title: '£', cell: row => row.now_cost/10, sortable: true },
-  { prop: 'ict_index_rank', title: 'ICT', sortable: true }
+  { prop: 'ict_index_rank', title: 'ICT', sortable: true },
+  { prop: 'ppm', title: 'PPM', sortable: true }
 ];
 
 //const { getTeamById } = usePremierData();
@@ -176,8 +180,11 @@ const onSortFunction = {
     // Basic sort will check for upper & lowerCase
     return value.toUpperCase();
   },
-  ict_index(value) {
+  ict_index_rank(value) {
     return parseFloat(value);
+  },
+  ppm(value) {
+    return value;
   }
 }
 
@@ -195,7 +202,11 @@ export default function SuggestionTable({ current }) {
       let player_list = listPlayers(current.element_type);
       // Enrich information to the elements.
       // For sorting purposes, get team short_name
-      let enriched = player_list.map(p => { return {...p, short_name: getTeamById(p.team).short_name } });
+      let enriched = player_list.map(p => { return {
+        ...p, 
+        short_name: getTeamById(p.team).short_name,
+        ppm: Math.round(p.total_points / (p.now_cost/10) * 100) / 100
+      } });
       // Datatable starting sort is wack, fix it here.
       enriched.sort((a,b) => b.total_points - a.total_points);
       setList(enriched);
@@ -213,6 +224,30 @@ export default function SuggestionTable({ current }) {
       onSort={onSortFunction} 
       labels={customLabels}
       classes={classes}
+      Components={{
+        ButtonGroup(props) {
+          let child = props.children.find(c => c.key.includes("page-btn") && c.props.disabled );
+          let pageNum = child ? child.props.pageNumber : 0;
+          return (
+            <>
+            <div
+              {...props}
+              className={makeClasses(props.className, classes.buttonGroup)}
+            />
+            <span><small>{pageNum <= 1 ? '1' : (pageNum-1)*5+1} - {pageNum*5 > list.length ? list.length : pageNum*5}/{list.length}</small></span>
+            </>
+          );
+        },
+        Button(props) {
+          let hidden = !['>','<'].includes(props.children);
+          if (hidden) return null;
+          return (
+            <button {...props} className={makeClasses(hidden, props.className, classes.paginationButton)}>
+              <i className={`fas fa-angle-${['<'].includes(props.children) ? 'left': 'right'}`}></i>
+            </button>
+          );
+        }
+      }}
     />
   )
 }
