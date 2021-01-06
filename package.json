@@ -7,10 +7,13 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^4.5.3",
+    "bootstrap-sass": "^3.4.1",
     "bootstrap-styled": "^2.7.2",
+    "font-awesome": "^4.7.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-bootstrap-typeahead": "^5.1.4",
+    "react-bs-datatable": "^2.1.2",
     "react-burger-menu": "^3.0.3",
     "react-cookie": "^4.0.3",
     "react-dom": "^17.0.1",
@@ -43,6 +46,11 @@
     ]
   },
   "resolutions": {
-    "styled-components": "^5"
+    "styled-components": "^5",
+    "react-dom": "^17.0.1",
+    "react": "^17.0.1"
+  },
+  "devDependencies": {
+    "@babel/helper-builder-react-jsx": "^7.10.4"
   }
 }

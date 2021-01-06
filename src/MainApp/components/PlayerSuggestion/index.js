@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Tab, Badge, Nav, Pagination } from 'react-bootstrap';
+import Datatable from 'react-bs-datatable';
 import Fixtures from '../PlayerFixtures';
 
 import usePremierData from '../../usePremierData';
@@ -216,5 +217,31 @@ function Suggestion({ player, current }) {
       <td className="element-cell-stats">{Math.round(player.total_points / (player.now_cost/10) * 100) / 100}</td>
       {/*<small>{player.web_name}</small> | <small>PPG: {player.points_per_game}</small> | <small>Value: {player.now_cost/10}</small> | <small>PPM: {Math.round(player.total_points / (player.now_cost/10) * 100) / 100}</small> | <small>Points: {player.total_points}</small>*/}
     </tr>
+  )
+}
+
+/**
+ * Give trade suggestions to the player.
+ * @param {Object} props
+ * @param {import('../../../PremierContext/premier').Element} props.current - Currently selected player
+ */
+export const SuggestionTable = ({ current }) => {
+  const { listPlayers } = usePremierData();
+  const [ list, setList ] = useState([]);
+
+  useEffect(() => {
+    if (current && current.element_type) {
+      let player_list = listPlayers(current.element_type);
+      setList(player_list);
+      console.log(list);
+    }
+    return () => setList([]);
+  }, [ current ]);
+  /**
+   * Get currently available amount of cash, filter only players that are affordable.
+   */
+
+  return (
+    <Datatable tableHeaders={[]} tableBody={[]} />
   )
 }

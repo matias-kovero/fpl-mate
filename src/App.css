@@ -24,6 +24,9 @@
 .toast-body {
   background-color: #00ff87 !important;
 }
+.modal-content {
+  box-shadow: #424242 0px 0px 17px 3px;
+}
 .smaller-text {
   font-size: x-small;
   font-weight: normal;
@@ -465,7 +468,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .player-points-info {
   font-size: smaller;
   font-weight: 500;
-  vertical-align: text-bottom;
+  vertical-align: middle;
 }
 /** END OF ROSTER CSS */
 
@@ -887,6 +890,43 @@ img {
 }
 
 /** END OF SUGGESTION CSS */
+
+/* START SUGGESTION DATATABLE */
+.element-table-heading {
+  font-weight: 500;
+  vertical-align: middle;
+}
+.element-table-heading-col {
+  padding: .5rem;
+}
+.element-table-heading td:nth-child(1) {
+  width: 10%;
+}
+.element-table-heading td:nth-child(2) {
+  width: 12%;
+  padding: .1rem;
+  vertical-align: middle;
+}
+.element-table-heading td:nth-child(3) {
+  width: 60%;
+}
+.element-table-heading td:nth-child(4) {
+  width: 15%;
+}
+.element-table-heading td:nth-child(5) {
+  width: 15%;
+}
+.element-table-row td:nth-child(2) {
+  padding: .2rem;
+}
+.element-table-row td:nth-child(3) {
+  padding: .4rem;
+}
+.element-table-col {
+  vertical-align: middle !important;
+}
+
+/* END SUGGESTION DATATABLE */
 
 .pitch1 {
   min-height: 330px;

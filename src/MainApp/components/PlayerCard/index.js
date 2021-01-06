@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 
 import Fixtures from '../PlayerFixtures';
 import PlayerSuggestions from '../PlayerSuggestion';
+import SuggestionTable from '../PlayerSuggestion/temp';
 import usePremierData from '../../usePremierData'; 
 
 const useFixture = (player, initialValue) => {
@@ -90,11 +91,10 @@ export default function PlayerCard({ show, onHide, player }) {
               <small>{team.name}</small>
             </div>
             <div className="banner-player-stats">
-              <b>Playing next round <small>{player.chance_of_playing_next_round ? player.chance_of_playing_next_round + '%' : "unknown"}</small></b>
               <div>
                 <small>Value: £<b>{player.now_cost/10}</b> m</small> <br />
                 <small>PPG: <b>{player.points_per_game}</b></small> <br />
-                <small>Form: <b>{player.form}</b></small>
+                <small>PPM: <b>{Math.round(player.total_points / (player.now_cost/10) * 100) / 100}</b></small> <br />
               </div>
             </div>
             <div className="banner-fixtures">
@@ -107,12 +107,14 @@ export default function PlayerCard({ show, onHide, player }) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Possible Replacements:</h4>
-        <PlayerSuggestions current={player} />
+        <p>Possible Replacements:</p>
+        <SuggestionTable current={player} />
+        {/*<PlayerSuggestions current={player} />*/}
       </Modal.Body>
+      {/*
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
-      </Modal.Footer>
+      </Modal.Footer>*/}
     </Modal>
   )
 }
