@@ -37,10 +37,10 @@ export default function UserInfo({ user, points }) {
             <p>{user.name} &#183; ({user.summary_overall_points}p)</p>
           </div>
           <div>
-            <span>Overall Rank: <b>{user.summary_overall_rank.toLocaleString('fin')}</b> <span className={`rank-change-${rankChange.type}`}>{rankChange.num}</span></span>
+            <span>Overall Rank: <b>{user.summary_overall_rank && user.summary_overall_rank.toLocaleString('fin')}</b> <span className={`rank-change-${rankChange.type}`}>{rankChange.num}</span></span>
           </div>
           <div>
-            <span><small>GW Rank: <b>{user.summary_event_rank.toLocaleString('fin')}</b> <small style={{verticalAlign: 'text-bottom'}}>Top: { Math.round(user.summary_event_rank / total_players*100)}%</small></small></span>
+            <span><small>GW Rank: <b>{user.summary_event_rank && user.summary_event_rank.toLocaleString('fin')}</b> <small style={{verticalAlign: 'text-bottom'}}>Top: { Math.round(user.summary_event_rank / total_players*100)}%</small></small></span>
           </div>
         </div>
         <div className="team-shirt">
