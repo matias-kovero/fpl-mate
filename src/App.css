@@ -799,6 +799,41 @@ img {
   border: 0px;
   color: rgb(47, 47, 47);
 }
+
+.list-type-button-container {
+  padding: 1rem;
+}
+.fixture-players-list {
+  max-height: 9rem;
+}
+.fixture-players-list tbody {
+  background-color: #FFF;
+}
+.fixture-table-heading {
+  color: #FFF;
+  background-color: #37003c;
+}
+.fixture-table-teamname {
+  font-size: x-small;
+  font-weight: 700;
+}
+.yellow-card, .red-card {
+  content: "";
+  display: block;
+  width: 13px;
+  height: 20px;
+  border-radius: 3px;
+}
+.fixture-table-addinfo {
+  display: flex;
+  gap: .2rem;
+}
+.red-card {
+  background-color: red;
+}
+.yellow-card {
+  background-color: yellow;
+}
 /** END OF FIXTURE CSS */
 
 /** SUGGESTION CSS */
@@ -1241,3 +1276,14 @@ img {
   width: 2px;
   background: #dedede70;
 }
+.fade {
+  opacity: 1 !important;
+}
+/** START LEAGUES */
+.league-button-container {
+  padding: 1rem;
+}
+.league-buttons button {
+  flex: 1 1 auto !important;
+}
+/** END OF LEAGUES */

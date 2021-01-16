@@ -1,5 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Accordion, Card } from 'react-bootstrap';
+import {
+  ButtonGroup,
+  Button,
+} from 'rsuite';
 import PlayerCard from '../components/PlayerCard';
 
 import usePremierData from '../usePremierData'; 
@@ -132,13 +136,34 @@ export function Match({ data, number, showPlayer }) {
       </Accordion.Toggle>
       <Accordion.Collapse eventKey={number.toString()}>
         <Card.Body className="fixture-stats-wrapper">{data.stats.length ? 
+        <MatchWrapper data={data} showPlayer={showPlayer} />
+         : <p style={{textAlign: 'center', fontSize: 'small'}}>No events yet on the match.</p>}</Card.Body>
+      </Accordion.Collapse>
+    </Card>
+  )
+}
+const LISTTYPE = ['Players', 'Stats'];
+export function MatchWrapper({ data, showPlayer }) {
+  const [ selected, setSelected ] = useState(LISTTYPE[0]);
+
+  return (
+    <>
+      <div className="list-type-button-container">
+        <ButtonGroup justified size="xs" className="list-type-buttons">
+          { LISTTYPE.map((type, i) => {
+            return <Button key={i} active={selected === type} onClick={() => setSelected(type)}>{type}</Button>
+          }) }
+        </ButtonGroup>
+      </div>
+      {selected === LISTTYPE[0] ? 
+        <PlayerList data={data} showPlayer={showPlayer} /> :
         <ul>
           { data.stats.map((stats, i) => {
             return (stats.a.length || stats.h.length ? <MatchStat key={i} stats={stats} showPlayer={showPlayer} /> : null)
           })}
-        </ul> : <p style={{textAlign: 'center', fontSize: 'small'}}>No events yet on the match.</p>}</Card.Body>
-      </Accordion.Collapse>
-    </Card>
+        </ul>
+      }
+    </>
   )
 }
 
@@ -187,4 +212,155 @@ export function PlayerElement({ data, showPlayer }) {
         {player.web_name} </button> ({data.value})
     </li>
   )
+}
+
+const getPlayers = (match, live, calculateGame) => {
+  if (!live || !live.elements.length) return null;
+  console.log('Match', match, 'live', live);
+  let elements = [];
+
+  // Loop all gamestats, and add element Id's to an array.
+  elements = match.stats.reduce((result, i, arr) => {
+    // Check i.a && i.h, both are possible arrays of players with point giving attributes.
+    let players = i.a.concat(i.h);
+    if (players.length) {
+      // Getting only players element Id
+      let ids = players.map(e => e.element);
+      result.push(...ids);
+    }
+    return result;
+  }, []);
+
+  // Array might contain duplicates, removing them.
+  elements = [... new Set(elements)];
+
+  let calculated_players = calculateGame(elements, live, match);
+  console.log(calculated_players);
+  return calculated_players;
+}
+
+export function PlayerList({ data, showPlayer }) {
+  const { currentGameweek, useLiveData, getPointsFromLiveData, calculateGame } = usePremierData();
+  const { data: liveData, loading } = useLiveData(currentGameweek.id);
+  const players = useMemo(() => getPlayers(data, liveData, calculateGame), [ data, liveData ]);
+/*
+  useEffect(() => {
+    if (loading) console.log('Waiting for live D');
+    if (!loading) {
+      console.log('Parsed:', players);
+      console.log('Live D', liveData);
+    }
+  }, [ data, loading ]); */
+
+  return (
+    <table className="roster-table fixture-players-list">
+      <thead className="fixture-table-heading">
+        <tr>
+          <th className="roster-list-status">%</th>
+          <th className="roster-list-element">
+            <div className="roster-header-cell">
+              <div className="header-cell-container">Player</div>
+              <div className="header-cell-container smaller-text"></div>
+            </div>
+          </th>
+          <th className="roster-list-stat">
+            <div className="roster-header-cell">
+              <div className="header-cell-container cell-small">Points</div>
+              <div className="header-cell-container smaller-text"></div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {players && players.map((p, i) => {
+          return <PlayerCell key={i} data={p} showPlayer={showPlayer} />
+        }) }
+      </tbody>
+    </table>
+  )
+}
+
+/**
+ * Generate list view of acclaimed points to player from specific match data.
+ * @param {*} data 
+ */
+const parseMatchData = (data, live, getPoints) => {
+  console.log('Data', data, 'live', live);
+  let players = [];
+  if (!live) return null;
+
+  // Loop all gamestats, and add element Id's to an array.
+  players = data.stats.reduce((result, i, arr) => {
+    // Check i.a && i.h, both are possible arrays of players with point giving attributes.
+    let elements = i.a.concat(i.h);
+    if (elements.length) {
+      // Getting only players element Id
+      let ids = elements.map(e => e.element);
+      result.push(...ids);
+    }
+    return result;
+  }, []);
+
+  // Array might contain duplicates, removing them.
+  players = [... new Set(players)];
+
+  // !!! Retarded logic warning !!!
+  let calculated_players = players.map(p => {
+    let player = live.elements.find(e => e.id === p);
+    // Check if points acclaimed in current match!
+    // Need this as might be multiple matches per week.
+    let match = player.explain.find(e => e.fixture === data.id);
+    if (match) {
+      let ovr_points = getPoints(p, live);
+      return { element: p, stats: [...match.stats], points: ovr_points };
+    }
+  });
+
+  // Sort players by points
+  calculated_players.sort((a,b) => b.points - a.points);
+
+  return calculated_players;
+}
+/**
+ * 
+ * @param {Object} props
+ * @param {Object} props.data - Data object
+ * @param {import('../../PremierContext/premier').Element } props.data.player - Player Element 
+ */
+export function PlayerCell({ data, showPlayer }) {
+  const { getTeamShirt, getTeamById } = usePremierData();
+  //const player = getPlayerByElement(data.element);
+  const shirt = getTeamShirt(data.player);
+  const team = getTeamById(data.player.team);
+
+  return (
+    <tr>
+      <td className="element-cell-pr">{data.player.selected_by_percent}</td>
+      <td className="element-cell">
+        <div className="element-styled-media" onClick={() => showPlayer(data.player)}>
+          <div className="element-media-body" style={{ paddingLeft: '0.6rem'}}>
+            <div className="element-body-name">{data.player.web_name}</div>
+            <div className="element-body-info">
+              <div className="fixture-table-teamname">
+                {team.name}
+              </div>
+            </div>
+          </div>
+          <div className="element-media-body fixture-table-addinfo">
+            { data.cards.yellow ? 
+              <div>
+               <span className="yellow-card"></span>
+              </div> 
+            : null }
+            { data.cards.red ? 
+              <div>
+               <span className="red-card"></span>
+              </div> 
+            : null }
+          </div>
+        </div>
+      </td>
+      <td className="element-cell-stats">{data.points.bonus ? <div>{data.points.bonus + data.points.value} <span className="player-points-info">({data.points.value} + {data.points.bonus})</span></div> : data.points.value}</td>
+    </tr>
+  ) 
 }

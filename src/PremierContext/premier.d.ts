@@ -432,3 +432,50 @@ declare interface Team {
   unavailable: Boolean,
   win: Number
 }
+
+declare interface LeagueStandings {
+  league: {
+    /** Admins entry Id */
+    admin_entry: Number,
+    closed: Boolean,
+    code_privacy: String,
+    /** ISO DateTime String */
+    created: String,
+    /** League Id, used for API calls */
+    id: Number,
+    league_type: String,
+    max_entries: null,
+    /** League Name */
+    name: String,
+    rank: null,
+    scoring: String,
+    start_event: Number,
+  },
+  new_entries: {
+    has_next: Boolean,
+    page: Number,
+    results: StandingsPlayer[]
+  },
+  standings: {
+    has_next: Boolean,
+    page: Number,
+    results: StandingsPlayer[]
+  }
+}
+declare interface StandingsPlayer {
+  /** Users id for API calls */
+  entry: Number,
+  /** Users team name */
+  entry_name: String,
+  /** Current gameweek points */
+  event_total: Number,
+  /** Internal ID?? */
+  id: Number,
+  last_rank: Number,
+  /** Users name */
+  player_name: String,
+  /** Users current rank */
+  rank: Number,
+  /** Users total points */
+  total: Number
+}

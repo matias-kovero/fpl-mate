@@ -139,6 +139,57 @@ const usePremierData = () => {
   }
 
   /**
+   * Get live points of player on specific match.
+   * @param {Number} id - Player Id 
+   * @param {*} live 
+   */
+  function getPointsFromMatch(id, live, match_id) { 
+    if (!live || !id || !match_id) return null;
+
+    let player = live.elements.find(e => e.id === id);
+
+    let match = player.explain.find(e => e.fixture === match_id);
+    if (match && player.stats) {
+      return match.stats.reduce((a, b) => {
+        return a + b.points;
+      }, 0);
+    } else return null;
+  }
+
+  function getCardsFromMatch(id, match) {
+    let cards = { yellow: 0, red: 0 };
+    if (!match) return cards;
+    // Check if match has started and has stats in it.
+    if (match.started || !match.stats) return cards;
+    let yellows = match.stats.find(s => s.identifier === 'yellow_cards');
+  }
+
+  function getMatchStats(match) {
+    if (!match || !match.started || !match.stats) return null;
+    let { a: ag, h: hg } = match.stats.find(s => s.identifier === 'goals_scored');
+    let { a: aa, h: ha } = match.stats.find(s => s.identifier === 'assists');
+    let { a: aog, h: hog } = match.stats.find(s => s.identifier === 'own_goals');
+    let { a: aps, h: hps } = match.stats.find(s => s.identifier === 'penalties_saved');
+    let { a: apm, h: hpm } = match.stats.find(s => s.identifier === 'penalties_missed');
+    let { a: ayc, h: hyc } = match.stats.find(s => s.identifier === 'yellow_cards');
+    let { a: arc, h: hrc } = match.stats.find(s => s.identifier === 'red_cards');
+    let { a: as, h: hs } = match.stats.find(s => s.identifier === 'saves');
+
+    let stats = {
+      goals: ag.concat(hg),
+      assists: aa.concat(ha),
+      own_goals: aog.concat(hog),
+      penalties_saved: aps.concat(hps),
+      penalties_missed: apm.concat(hpm),
+      yellow_cards: ayc.concat(hyc),
+      red_cards: arc.concat(hrc),
+      saves: as.concat(hs)
+    };
+
+    return stats;
+  }
+
+  /**
    * Gets players possible Bonus points, when match isn't even ended.
    * @param {Number} id - Players ID 
    * @param {Object} match 
@@ -182,7 +233,7 @@ const usePremierData = () => {
         else if (threepoints.length < 3) points += 1; // 2 players where 1st, give 1 point
       } else if (onepoints.find(i => i.element === id)) {
         // If under 3 players got points, give 1 point.
-        if (threepoints.length < 2 || twopoints.length < 2) points += 1;
+        if (threepoints.length + twopoints.length < 3) points += 1;
       }
     });
     return points;
@@ -251,6 +302,53 @@ const usePremierData = () => {
     let points = data.reduce((a, b ) => a + b.played.points, 0);
 
     return { points, data };
+  }
+
+  /**
+   * Counts points for players of a specific game.
+   * @param {Number[]} elements - List of player elements on current match.
+   * @param {Object} live  - Live data
+   * @param {import('../PremierContext/premier').Match} match - Match data
+   */
+  function calculateGame(elements, live, match) {
+    let players = [];
+
+    let stats = getMatchStats(match);
+
+    for (let element of elements) {
+      let player = getPlayerByElement(element);
+      let points = getPointsFromMatch(player.id, live, match.id);
+      let bonus = getPlayerBonusPoints(player.id, { gameweek: [match] });
+      let cards = { yellow: [], red: []};
+
+      if (stats) {
+        cards.yellow = stats.yellow_cards.find(p => p.element === element);
+        cards.red = stats.red_cards.find(p => p.element === element);
+      }
+
+      // Player gained bonus points
+      if (bonus && points === player.event_points) {
+        // Match is fully ended and points are calculated right to players, thus remove our own calculations.
+        if (match.finished && match.finished_provisional) points = (points - bonus);
+      }
+      players.push({
+        player,
+        points: {
+          value: points,
+          bonus: bonus
+        },
+        cards: {
+          yellow: cards.yellow ? cards.yellow.value : 0,
+          red: cards.red ? cards.red.value : 0,
+        },
+        sort: points + bonus,
+      });
+    }
+    // Sort players by points
+
+    players.sort((a,b) => b.sort - a.sort);
+
+    return players;
   }
 
   /** CONTEXT ASYNC FUNCTIONS */
@@ -351,8 +449,33 @@ const usePremierData = () => {
     return { data, loading };
   }
 
-  const useLivePoints = (picks) => {
+  /**
+   * @typedef {Object} Standings
+   * @property {import('../PremierContext/premier').LeagueStandings} data - The standings data 
+   * @property {Boolean} loading - Is the request still pending 
+   */
+  /**
+   * Get leagues standings
+   * @param {Number} id - league Id 
+   * @return {Standings}  The picks for the user.
+   */
+  const useLeagueStandings = (id) => {
     const [ data, setData ] = useState(null);
+    const [ loading, setLoading ] = useState(true);
+    const fetchData = useCallback(async () => {
+      try {
+        let standings = await context.getLeagueStandings(id);
+        setData(standings);
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    }, [ id ]);
+    useEffect(() => {
+      fetchData();
+    }, [ fetchData ]);
+    return { data, loading };
   }
 
   return {
@@ -371,11 +494,13 @@ const usePremierData = () => {
     getPlayerBonusPoints,
     listPlayers,
     calculateRoster,
+    calculateGame,
     getElementInfo,
     fetchFixtures,
     useGetPick,
     useLiveData,
-    useGetFixtures
+    useGetFixtures,
+    useLeagueStandings
   }
 }
 
