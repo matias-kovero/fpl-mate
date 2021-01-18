@@ -1,15 +1,8 @@
-import { SET_SEASON, SET_TEAM, SET_ELEMENTS, SET_FIXTURES, SET_USER, SET_RECENT } from './types';
+import { SET_SEASON, SET_TEAM, SET_ELEMENTS, SET_FIXTURES, SET_USER, SET_RECENT, SET_PAGE } from './types';
 
 export default (state, action) => {
   const { payload, type } = action;
 
-  /*
-  season: null, //localStorage.getItem('season') ? JSON.parse(localStorage.getItem('season')) : null,
-  team: null, // Saves current team info here
-  defaultUser: localStorage.getItem('defaultTeam'),
-  elements: null,
-  fixtures: null,
-  */
   switch (type) {
     case SET_SEASON:
       return {
@@ -40,6 +33,11 @@ export default (state, action) => {
       return {
         ...state,
         recents: payload
+      };
+    case SET_PAGE:
+      return {
+        ...state,
+        defaultPage: payload
       };
     default:
       return state;

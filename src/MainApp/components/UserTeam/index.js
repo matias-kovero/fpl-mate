@@ -156,7 +156,7 @@ const RosterTableRow = ({ data, showPlayer }) => {
             </picture>
           </div>
           <div className="element-media-body">
-            <div className="element-body-name">{data.info.is_captain ? <b>[C] </b>: (data.info.is_vice_captain ? <b>[V] </b>:null)}{data.player.web_name} <small>{setPieceString(data.player)}</small></div>
+            <div className="element-body-name">{data.info.is_captain ? <b>{data.info.multiplier === 3 ? '[3x C]' : '[C]'} </b>: (data.info.is_vice_captain ? <b>[V] </b>:null)}{data.player.web_name} <small>{setPieceString(data.player)}</small></div>
             <div className="element-body-info">
               <Fixtures data={fixture} amount={5} mini />
             </div>

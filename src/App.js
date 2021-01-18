@@ -28,6 +28,7 @@ export default function App() {
   const findUser = () => {
     closeMenu();
     context.clearProfile();
+    context.setDefaultPage("Profile");
   }
 
   return (
@@ -57,7 +58,7 @@ export default function App() {
       </Menu>
       <main id="page-wrap" style={{ overflow: 'auto', height: '100%'}}>
         <Navbar toggleMenu={toggleMenu} />
-        <MainApp team={context.team} context={context} searchProfile={context.GetTeamInfo} />
+        <MainApp team={context.team} context={context} searchProfile={context.GetTeamInfo} activePage={context.setDefaultPage} />
       </main>
     </div>
   )

@@ -6,6 +6,7 @@ import {
 } from 'rsuite';
 import PremierContext from '../../PremierContext';
 import LeagueInfo from '../components/LeagueInfo';
+import ModalTeam from '../components/ModalTeam';
 import usePremierData from '../usePremierData';
 
 /**
@@ -16,6 +17,8 @@ import usePremierData from '../usePremierData';
 export default function Leagues({ user }) {
   const [classic, setClassic] = useState([]);
   const [league, setLeague] = useState({});
+  const [modal, setModal] = useState(false);
+  const [player, setPlayer] = useState(null);
 
   // Set users leagues, remove Gameweek 1 from it.
   useEffect(() => {
@@ -27,7 +30,11 @@ export default function Leagues({ user }) {
     return () => { setClassic([]) }
   }, [ user ]);
 
-
+  const showPlayer = (p) => {
+    setPlayer(p);
+    setModal(true);
+    console.log('Preview:', p);
+  }
 
   /**
    * 
@@ -41,6 +48,7 @@ export default function Leagues({ user }) {
   return (
     <div className="layout-wrapper">
       <div className="layout-main">
+        { player ? <ModalTeam show={modal} onHide={() => setModal(false)} user={player} /> : null }
         <div className="league-button-container">
           <ButtonGroup justified size="xs" className="league-buttons">
             {classic.map((cl, i) => {
@@ -48,7 +56,7 @@ export default function Leagues({ user }) {
             })}
           </ButtonGroup>
         </div>
-        {league && league.id && <LeagueInfo league={league} />}
+        {league && league.id && <LeagueInfo league={league} preview={showPlayer} />}
       </div>
       <div className="layout-secondary"></div>
     </div>

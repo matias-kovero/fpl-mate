@@ -128,14 +128,9 @@ const usePremierData = () => {
     // No live data provided
     if (!live) return null;
     let player = live.elements.find(e => e.id === id);
-    console.log(player);
-    // Unable to locate player
-    /**
-     * explain: [
-     *  { fixture: Number, stats: [] }
-     * ]
-     */
+
     if (!player) return null;
+    
     else if (player.explain.length && player.explain[0].stats) {
       return player.explain.map(f => {
         return f.stats.reduce((a, b) => {
@@ -275,7 +270,6 @@ const usePremierData = () => {
        */
       let games = matches.find(t => t.id === player.team);
       let points = getPointsFromLiveData(player.id, live);
-      console.log(`Counting points ${player.web_name}`, points);
       let bonus = getPlayerBonusPoints(player.id, games);
       // console.log(player.web_name, 'has', player.event_points, 'points!',`(${points} + ${bonus})`);
       // Player has bonus points and they are added to event points.
@@ -285,8 +279,6 @@ const usePremierData = () => {
         if (games.gameweek[0].finished && games.gameweek[0].finished_provisional) {
           // Remove bonus points from overall points.
           points = (points - bonus);
-        } else {
-          console.log(player.web_name, 'game not ended', games.gameweek[0]);
         }
       }
       // Add player to right array

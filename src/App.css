@@ -89,7 +89,7 @@ ul, ol {
   padding: .25rem 1rem !important;
 }
 .modal-body {
-  padding: .6rem;
+  padding: 0rem !important;
 }
 /* END OF BOOTSTRAP MODIFICATIONS */
 
@@ -1285,5 +1285,58 @@ img {
 }
 .league-buttons button {
   flex: 1 1 auto !important;
+}
+
+.league-table-container {
+  padding: 2rem;
+  width: 100%;
+}
+.league-table-container table {
+  width: 100%;
+}
+.table .tr {
+  width: 100% !important;
+}
+
+div[role=columnheader] {
+  color: #FFF;
+  background-color: #37003c;
+  font-size: small;
+  font-weight: 700;
+}
+
+div[role=cell] {
+  color: #000;
+  background-color: #fff7e9;
+  padding-top: .25rem;
+  font-size: smaller;
+}
+.tr .th {
+  width: 33% !important;
+}
+.tr .td {
+  width: 33% !important;
+  text-align: left;
+}
+.tr .th:nth-child(1), .tr .td:nth-child(1) {
+  width: 20% !important;
+  text-align: center;
+}
+.tr .th:nth-child(2), .tr .td:nth-child(2) {
+  width: 65% !important;
+}
+.tr .th:nth-child(3), .tr .td:nth-child(3) {
+  width: 20% !important;
+  text-align: center;
+}
+.league-table-standings-name {
+  font-weight: 700;
+  font-size: smaller;
+}
+.league-table-standings-team {
+  font-size: smaller;
+}
+.league-table-padded-cell {
+  padding-top: .35rem;
 }
 /** END OF LEAGUES */

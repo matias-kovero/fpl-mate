@@ -216,7 +216,6 @@ export function PlayerElement({ data, showPlayer }) {
 
 const getPlayers = (match, live, calculateGame) => {
   if (!live || !live.elements.length) return null;
-  console.log('Match', match, 'live', live);
   let elements = [];
 
   // Loop all gamestats, and add element Id's to an array.
@@ -235,7 +234,6 @@ const getPlayers = (match, live, calculateGame) => {
   elements = [... new Set(elements)];
 
   let calculated_players = calculateGame(elements, live, match);
-  console.log(calculated_players);
   return calculated_players;
 }
 

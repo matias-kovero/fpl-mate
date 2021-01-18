@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
-import { SET_SEASON, SET_TEAM, SET_ELEMENTS, SET_FIXTURES, SET_USER, SET_RECENT } from './types';
+import { SET_SEASON, SET_TEAM, SET_ELEMENTS, SET_FIXTURES, SET_USER, SET_RECENT, SET_PAGE } from './types';
 import PremierContext from './PremierContext';
 import PremierReducer from './PremierReducer';
 import useAPIError from '../ApiErrorContext/useAPIError';
@@ -10,6 +10,7 @@ const initialState = {
   season: null,
   team: null,
   defaultUser: localStorage.getItem('defaultUser'),
+  defaultPage: localStorage.getItem('defaultPage'),
   recents: JSON.parse(localStorage.getItem('recentSearches') || "[]" ),
   elements: null,
   fixtures: null,
@@ -139,6 +140,11 @@ const PremierState = ({ children }) => {
     dispatch({ type: SET_USER, payload: 0 });
     localStorage.setItem('defaultUser', JSON.stringify(0));
   }
+
+  const setDefaultPage = (page) => {
+    dispatch({ type: SET_PAGE, payload: page });
+    localStorage.setItem('defaultPage', page);
+  }
   /**
    * Will get users squad of the specified gameweek.
    * @param {Number} id - Users Team ID 
@@ -218,8 +224,10 @@ const PremierState = ({ children }) => {
         fixtures: state.fixtures,
         defaultUser: state.defaultUser,
         recentSearches: state.recents,
+        defaultPage: state.defaultPage,
         searchProfile,
         clearProfile,
+        setDefaultPage,
         getSquad,
         getPlayerInfo,
         getLiveStats,

@@ -10,16 +10,16 @@ import Leagues from './Leagues';
  * @param {Object} props
  * @param {import('../PremierContext/premier').EntryObject } props.team Users Team 
  */
-export default function MainApp({ team, season, context, searchProfile }) {
+export default function MainApp({ team, context, searchProfile, activePage }) {
   
   return (
-    <Tab.Container id="main-content-tabs" defaultActiveKey="Profile">
+    <Tab.Container id="main-content-tabs" defaultActiveKey={context.defaultPage ? context.defaultPage : "Profile" }>
       <div className="app-header-container">
         <div className="layout-wrapper">
           <div className="styled-player-component">
             <div className="app-header">
               <h1 className="app-game-title">Fantasy</h1>
-              <Nav className="nav-tabs">
+              <Nav className="nav-tabs" onSelect={(selectedKey) => activePage(selectedKey)}>
                 <Nav.Item>
                   <Nav.Link eventKey="Profile">Profile</Nav.Link>
                 </Nav.Item>

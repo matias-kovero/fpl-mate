@@ -4,3 +4,4 @@ export const SET_ELEMENTS = "SET_ELEMENTS";
 export const SET_FIXTURES = "SET_FIXTURES";
 export const SET_USER = "SET_USER";
 export const SET_RECENT = "SET_RECENT";
+export const SET_PAGE = "SET_PAGE";
