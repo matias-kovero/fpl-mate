@@ -82,6 +82,11 @@ export default function LeagueInfo({ league, preview, user }) {
         Cell: CustomCell
       },
       {
+        Header: 'GW',
+        accessor: 'event_total',
+        Cell: PaddedCell
+      },
+      {
         Header: 'Points',
         accessor: 'total',
         className: 'points-cell',
@@ -188,9 +193,9 @@ function Table({ columns, data, preview, user, currentRank, prevRank, hasNextPag
         return (
           <div
             {...row.getRowProps({
-              style
+              style,
             })}
-            className="tr"
+            className={`tr${row.original.entry === user.id ?' active':''}`}
           >
             {row.cells.map(cell => {
               return (
@@ -260,7 +265,7 @@ function Table({ columns, data, preview, user, currentRank, prevRank, hasNextPag
           </InfiniteLoader>
           <div 
             role="row" 
-            className="tr" 
+            className="tr active" 
             style={{display: 'flex', height: '35px', border: '1px #000 solid', marginTop: '0.1rem'}}
             onClick={() => preview({ 
               entry: user.id, 
@@ -270,6 +275,7 @@ function Table({ columns, data, preview, user, currentRank, prevRank, hasNextPag
           >
             <div role="cell" className="td"><RankCell value={currentRank} row={{original: { last_rank: prevRank, rank: currentRank }}} /></div>
             <div role="cell" className="td"><CustomCell value={`${user.player_first_name} ${user.player_last_name}`} row={{original: {entry_name: user.name}}}/></div>
+            <div role="cell" className="td"><PaddedCell value={user.summary_event_points} /></div>
             <div role="cell" className="td"><PaddedCell value={user.summary_overall_points} /></div>
           </div>
         </div>
