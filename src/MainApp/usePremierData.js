@@ -478,6 +478,24 @@ const usePremierData = () => {
     return { data, loading };
   }
 
+  const useUpdateStandings = (id, page) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const fetch = useCallback(async () => {
+      try {
+        let standings = await context.updateLeagueStandings(id, page);
+        setData(standings);
+      } catch (error) { throw error; }
+      finally { setLoading(false); }
+    }, [ id, page ]);
+
+    useEffect(() => {
+      fetch();
+    }, [ fetch ]);
+    return { data, loading };
+    // https://fantasy.premierleague.com/api/leagues-classic/92/standings/?page_new_entries=1&page_standings=1&phase=1
+  }
+
   return {
     currentGameweek: getCurrentGameweek(),
     matches: getMatches,
@@ -500,7 +518,8 @@ const usePremierData = () => {
     useGetPick,
     useLiveData,
     useGetFixtures,
-    useLeagueStandings
+    useLeagueStandings,
+    useUpdateStandings
   }
 }
 

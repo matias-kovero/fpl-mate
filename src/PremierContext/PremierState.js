@@ -215,6 +215,21 @@ const PremierState = ({ children }) => {
     }
   }
 
+  const updateLeagueStandings = async(league_id, page) => {
+    if (!league_id || !page) {
+      addError('Unable to fetch league standings');
+      return;
+    }
+    const endpoint = `${API_BASE_URL}/leagues-classic/${league_id}/standings/?page_new_entries=1&page_standings=${page}`;
+    let res = await fetch(endpoint, { method: 'GET' });
+    if ([200].includes(res.status)) {
+      let json = await res.json();
+      return json;
+    } else {
+      addError('Failed to fetch league standings.');
+    }
+  }
+
   return (
     <PremierContext.Provider 
       value={{
@@ -236,6 +251,7 @@ const PremierState = ({ children }) => {
         removeFromRecents,
         getRecentSearches: getRecentProfiles,
         getLeagueStandings,
+        updateLeagueStandings,
         // These are old code -> SHOULD REMOVE THESE
         GetFixtures: forceUpdateFixtures,
         GetTeamInfo: searchProfile

@@ -88,9 +88,6 @@ ul, ol {
 .dropdown-item {
   padding: .25rem 1rem !important;
 }
-.modal-body {
-  padding: 0rem !important;
-}
 /* END OF BOOTSTRAP MODIFICATIONS */
 
 /* START OF BURGER MENU */
@@ -433,8 +430,10 @@ Note: Beware of modifying this element as it can break the animations - you shou
     flex-basis: calc(70% - 1rem) !important;
   }
 }
+.roster-wrapper {
+  padding-top: 1rem;
+}
 .players-container {
-  padding: 1em;
   margin-bottom: 2rem;
   position: relative;
   overflow: hidden;
@@ -894,6 +893,8 @@ img {
 }
 .element-media-img {
   margin-right: 1rem;
+  min-width: 24px;
+  min-height: 31.5px;
 }
 .element-media-shirt {
   display: inline-block;
@@ -1308,8 +1309,8 @@ div[role=columnheader] {
 div[role=cell] {
   color: #000;
   background-color: #fff7e9;
-  padding-top: .25rem;
   font-size: smaller;
+  border-bottom: 1px solid #FFF;
 }
 .tr .th {
   width: 33% !important;

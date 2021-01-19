@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import usePremierData from '../../usePremierData'; 
+
 /**
- * Renders palyers fixtures
+ * Renders players fixtures. Format:
+ * Next[] | Future[]
  * @param {Object} props 
  * @param {import('../../../PremierContext/premier').ElementFixtures} props.data - Players fixture data
  */
 export default function Fixtures({ data, amount, mini }) {
   const { currentGameweek } = usePremierData();
   // data = { fixtures, history, history_past }
+
   const [ next, setNext ] = useState([]);
   const [ future, setFuture ] = useState([]);
 
@@ -18,10 +21,8 @@ export default function Fixtures({ data, amount, mini }) {
        * We want to remove current gameweeks match. It's useless as the player can't be traded anymore.
        * We also want to highlight next gameweeks mathes, using a divider.
        */
-      //let upcoming = data.fixtures.filter(f => f.event !== currentGameweek.id);
       setNext(data.fixtures.filter(f => f.event === currentGameweek.id + 1));
       setFuture(data.fixtures.filter(f => f.event !== currentGameweek.id && f.event !== currentGameweek.id + 1));
-      //setFixture(upcoming);
     }
   }, [ data, currentGameweek ]);
 
@@ -33,12 +34,26 @@ export default function Fixtures({ data, amount, mini }) {
         }) : <MatchInfo mini={mini} />}
       </div>
       <div className="future-weeks">
-        {future.length && future.slice(0, amount ? amount - (next.length > 1 ? next.length : 1) : 3).map((match, i) => {
-          return <MatchInfo key={i} match={match} mini={mini} />
-        })}
+        { future.length ? 
+          future.slice(0, amount ? amount - (next.length > 1 ? next.length : 1) : 3).map((match, i) => {
+            return <MatchInfo key={i} match={match} mini={mini} />
+          }) : 
+          renderPlaceholder(amount ? amount - (next.length > 1 ? next.length : 1) : 3, mini)
+        }
       </div>
     </div>
   )
+}
+
+const renderPlaceholder = (amount, mini) => {
+
+  let arr = [];
+
+  for(var i = 0; i < amount; i++) {
+    arr.push(<MatchInfo key={i} mini={mini} />);
+  }
+
+  return arr;
 }
 
 const MatchInfo = ({ match, mini }) => {

@@ -56,7 +56,7 @@ export default function Leagues({ user }) {
             })}
           </ButtonGroup>
         </div>
-        {league && league.id && <LeagueInfo league={league} preview={showPlayer} />}
+        {user && league && league.id && <LeagueInfo league={league} preview={showPlayer} user={user} />}
       </div>
       <div className="layout-secondary"></div>
     </div>
