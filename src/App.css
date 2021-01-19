@@ -1340,4 +1340,12 @@ div[role=cell] {
 .league-table-padded-cell {
   padding-top: .35rem;
 }
+.league-table-rank-cell {
+  display: flex;
+  align-items: center;
+  -webkit-box-align: center;
+  gap: .2rem;
+  justify-content: flex-start;
+  padding-left: .5rem;
+}
 /** END OF LEAGUES */

@@ -26,6 +26,35 @@ function PaddedCell({ value }) {
 }
 
 /**
+ * 
+ * @param {Object} props
+ * @param {Number} props.value
+ * @param {Object} props.row
+ * @param {import('../../../PremierContext/premier').StandingsPlayer} props.row.original
+ */
+function RankCell({ value, row: { original }}) {
+  let change = original.last_rank - original.rank;
+  /**
+   * Values under 100k are displayed as localeString
+   * Values over 100k but under 1m are still in localeString but small
+   * Values over 1m are small
+   */
+  return <div className="league-table-padded-cell">
+    <div className="league-table-rank-cell">
+      <div>{value && value < 1000000 ?  value < 100000 ? value.toLocaleString() : <small>{value.toLocaleString()}</small> : <small>{value}</small>}</div>
+      <div>
+      {
+        change !== 0 ? (change > 0 ? 
+          <i className="fas fa-sort-up" style={{ color: 'green', verticalAlign: 'middle'}}></i> : 
+          <i className="fas fa-sort-down" style={{ color: 'red', verticalAlign: 'text-top'}}></i>
+          ) : <i className="fas fa-minus" style={{ color: 'gray', fontSize: 'smaller'}}></i>
+      }
+      </div>
+    </div>
+  </div>
+}
+
+/**
  * Render information about given league.
  * @param {Object} props
  * @param {import('../../../PremierContext/premier').ClassicObject} props.league - league 
@@ -45,7 +74,7 @@ export default function LeagueInfo({ league, preview, user }) {
       {
         Header: 'Rank',
         accessor:'rank',
-        Cell: PaddedCell
+        Cell: RankCell
       },
       {
         Header: 'Name',
@@ -105,6 +134,7 @@ export default function LeagueInfo({ league, preview, user }) {
             preview={preview} 
             user={user} 
             currentRank={league.entry_rank}
+            prevRank={league.entry_last_rank}
             hasNextPage={has_next}
             isNextPageLoading={loading}
             loadNextPage={loadMore}
@@ -121,7 +151,7 @@ export default function LeagueInfo({ league, preview, user }) {
  * @param {Object} props 
  * @param {import('../../../PremierContext/premier').EntryObject} props.user - User Object
  */
-function Table({ columns, data, preview, user, currentRank, hasNextPage, isNextPageLoading, loadNextPage }) {
+function Table({ columns, data, preview, user, currentRank, prevRank, hasNextPage, isNextPageLoading, loadNextPage }) {
   const defaultColumn = React.useMemo(
     () => ({
       minWidth: 20,
@@ -238,7 +268,7 @@ function Table({ columns, data, preview, user, currentRank, hasNextPage, isNextP
               event_total: user.summary_event_points 
             }) }
           >
-            <div role="cell" className="td"><PaddedCell value={currentRank.toLocaleString('fin')} /></div>
+            <div role="cell" className="td"><RankCell value={currentRank} row={{original: { last_rank: prevRank, rank: currentRank }}} /></div>
             <div role="cell" className="td"><CustomCell value={`${user.player_first_name} ${user.player_last_name}`} row={{original: {entry_name: user.name}}}/></div>
             <div role="cell" className="td"><PaddedCell value={user.summary_overall_points} /></div>
           </div>

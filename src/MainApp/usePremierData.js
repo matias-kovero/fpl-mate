@@ -200,8 +200,10 @@ const usePremierData = () => {
     // Player has no matches on the current gameweek.
     if (!match.gameweek) return null;
     let points = 0;
+    let remove = 0;
     // Looping every match player has on current gameweek
     match.gameweek.forEach(m => {
+      let m_points = 0;
       // Check if match has started and has stats in it. Else leave loop.
       if (!m.started || !m.stats) return;
       // Checking Bonus Points System
@@ -237,8 +239,12 @@ const usePremierData = () => {
         // If under 3 players got points, give 1 point.
         if (threepoints.length + twopoints.length < 3) points += 1;
       }
+      // Add points from this match to ovr_points.
+      points += m_points;
+      // If match already ended, we need to remove the points from ovr_points to avoid duplicate.
+      if (match.finished && match.finished_provisional) remove += m_points;
     });
-    return points;
+    return { bonus: points, remove };
   }
 
   /**
@@ -259,6 +265,7 @@ const usePremierData = () => {
 
     for (let pick of roster) {
       let player = getPlayerByElement(pick.element);
+      let debug = player.web_name === "Coufal";
       // Get the right array for the player. If multiplier === 0, player will be on bench.
       let datapath = data[pick.multiplier && player.element_type];
       /**
@@ -269,17 +276,18 @@ const usePremierData = () => {
        * Then we need to remove bonus?
        */
       let games = matches.find(t => t.id === player.team);
+      if (debug) console.log('Player played in', games.gameweek.length, 'matches!');
       let points = getPointsFromLiveData(player.id, live);
-      let bonus = getPlayerBonusPoints(player.id, games);
+      if (debug) console.log('Points from live:', points);
+      let { bonus, remove } = getPlayerBonusPoints(player.id, games);
+      if (debug) console.log('Bonus Points:', bonus, 'Needs removing:', remove);
       // console.log(player.web_name, 'has', player.event_points, 'points!',`(${points} + ${bonus})`);
       // Player has bonus points and they are added to event points.
       if (bonus && points === player.event_points) {
-
+        if (debug) console.log('Player has bonus points, check if the match with BPS is still played!');
         // console.log(player.web_name, games);
-        if (games.gameweek[0].finished && games.gameweek[0].finished_provisional) {
-          // Remove bonus points from overall points.
-          points = (points - bonus);
-        }
+        if (debug && remove) console.log('Removing Bonus points!', points, bonus);
+        if (remove) points = (points - remove);
       }
       // Add player to right array
       datapath.players.push({
@@ -318,7 +326,7 @@ const usePremierData = () => {
     for (let element of elements) {
       let player = getPlayerByElement(element);
       let points = getPointsFromMatch(player.id, live, match.id);
-      let bonus = getPlayerBonusPoints(player.id, { gameweek: [match] });
+      let { bonus, remove }= getPlayerBonusPoints(player.id, { gameweek: [match] });
       let cards = { yellow: [], red: []};
 
       if (stats) {
@@ -329,7 +337,8 @@ const usePremierData = () => {
       // Player gained bonus points
       if (bonus && points === player.event_points) {
         // Match is fully ended and points are calculated right to players, thus remove our own calculations.
-        if (match.finished && match.finished_provisional) points = (points - bonus);
+        if (remove) points = (points - remove);
+        //if (match.finished && match.finished_provisional) points = (points - bonus);
       }
       players.push({
         player,
