@@ -231,18 +231,18 @@ const usePremierData = () => {
       let onepoints = players.filter(p => p.value === third_points );
 
       // Give points to top 3 players
-      if (threepoints.find(i => i.element === id)) points += 3; 
+      if (threepoints.find(i => i.element === id)) m_points += 3; 
       else if (twopoints.find(i => i.element === id)) {
-        if (threepoints.length < 2) points += 2;      // 1 player was 1st, give 2 points
-        else if (threepoints.length < 3) points += 1; // 2 players where 1st, give 1 point
+        if (threepoints.length < 2) m_points += 2;      // 1 player was 1st, give 2 points
+        else if (threepoints.length < 3) m_points += 1; // 2 players where 1st, give 1 point
       } else if (onepoints.find(i => i.element === id)) {
         // If under 3 players got points, give 1 point.
-        if (threepoints.length + twopoints.length < 3) points += 1;
+        if (threepoints.length + twopoints.length < 3) m_points += 1;
       }
       // Add points from this match to ovr_points.
       points += m_points;
       // If match already ended, we need to remove the points from ovr_points to avoid duplicate.
-      if (match.finished && match.finished_provisional) remove += m_points;
+      if (m.finished && m.finished_provisional) remove += m_points;
     });
     return { bonus: points, remove };
   }
@@ -265,7 +265,8 @@ const usePremierData = () => {
 
     for (let pick of roster) {
       let player = getPlayerByElement(pick.element);
-      let debug = player.web_name === "Coufal";
+      let debug = player.web_name === "Dias";
+      if (debug) console.log(player.id);
       // Get the right array for the player. If multiplier === 0, player will be on bench.
       let datapath = data[pick.multiplier && player.element_type];
       /**
@@ -276,17 +277,10 @@ const usePremierData = () => {
        * Then we need to remove bonus?
        */
       let games = matches.find(t => t.id === player.team);
-      if (debug) console.log('Player played in', games.gameweek.length, 'matches!');
       let points = getPointsFromLiveData(player.id, live);
-      if (debug) console.log('Points from live:', points);
       let { bonus, remove } = getPlayerBonusPoints(player.id, games);
-      if (debug) console.log('Bonus Points:', bonus, 'Needs removing:', remove);
-      // console.log(player.web_name, 'has', player.event_points, 'points!',`(${points} + ${bonus})`);
       // Player has bonus points and they are added to event points.
       if (bonus && points === player.event_points) {
-        if (debug) console.log('Player has bonus points, check if the match with BPS is still played!');
-        // console.log(player.web_name, games);
-        if (debug && remove) console.log('Removing Bonus points!', points, bonus);
         if (remove) points = (points - remove);
       }
       // Add player to right array
