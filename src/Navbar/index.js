@@ -1,24 +1,22 @@
-import React, { useContext } from 'react';
-import { Navbar, Form, Button } from 'react-bootstrap';
-import PremierContext from '../PremierContext/PremierContext';
+import React from 'react';
+import { Navbar, Form } from 'react-bootstrap';
 
 export default function NavBar({ toggleMenu, returnHome }) {
-  const { clearProfile, team } = useContext(PremierContext);
-
-  const clearInfo = e => {
-    e.preventDefault();
-    //clearProfile();
-    toggleMenu();
-  }
   
   return (
-    <Navbar collapseOnSelect expand="md" variant="dark" sticky="top" className="justify-content-between" style={{backgroundColor: '#37003c'}}>
+    <Navbar 
+      collapseOnSelect 
+      expand="md" 
+      variant="dark" 
+      sticky="top" 
+      className="justify-content-between" 
+      style={{backgroundColor: '#37003c', filter: 'drop-shadow(0px 0px 2px #050505)'}}
+    >
       <Navbar.Brand className="navbar-brand-title" onClick={returnHome}>FPL Mate</Navbar.Brand>
       <Form inline>
-        <div onClick={clearInfo} style={{color: '#FFF'}}>
+        <div onClick={() => toggleMenu()} style={{color: '#FFF'}}>
           <i className="fas fa-bars"></i>
         </div>
-        {/*<Button type="submit" className="navbar-searchButton" onClick={clearInfo} disabled={!team}>Find User</Button>*/}
       </Form>
     </Navbar>
   )
