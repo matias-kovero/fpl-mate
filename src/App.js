@@ -6,10 +6,12 @@ import PremierContext from './PremierContext/PremierContext';
 
 import Navbar     from './Navbar';
 import MainApp    from './MainApp';
+import SearchPage from './SearchPage';
 
 export default function App() {
   const context = useContext(PremierContext);
   const [ menuOpen, setMenu ] = useState(false);
+  const [ page, setPage ] = useState('');
 
   useEffect(() => {
   }, [ context ]);
@@ -25,10 +27,27 @@ export default function App() {
   const toggleMenu = () => {
     setMenu(!menuOpen);
   }
+  
   const findUser = () => {
     closeMenu();
     context.clearProfile();
     context.setDefaultPage("Profile");
+  }
+
+  const switchPage = (page) => {
+    closeMenu();
+    setPage(page);
+  }
+
+  const manageContent = (key) => {
+    switch(key) {
+      case "Search":
+        return <SearchPage openMainPage={ () => switchPage('') } />
+      case "Settings":
+        return <div>Settings page</div>
+      default:
+        return <MainApp team={context.team} context={context} searchProfile={context.GetTeamInfo} activePage={context.setDefaultPage} />
+    }
   }
 
   return (
@@ -43,13 +62,13 @@ export default function App() {
         customBurgerIcon={false}
         itemListElement="div"
       >
-        <div id="home" className="menu-item" onClick={findUser}>
+        <div id="home" className="menu-item" onClick={() => switchPage('Search')}>
           <div>
             <i className="fas fa-user"></i>
             <span>Find User</span>
           </div>
         </div>
-        <div id="home" className="menu-item" onClick={closeMenu}>
+        <div id="home" className="menu-item" onClick={() => closeMenu()}>
           <div>
             <i className="fas fa-cog"></i>
             <span style={{ textDecoration:'line-through', color:'#ffffff61'}}>Settings</span>
@@ -57,8 +76,9 @@ export default function App() {
         </div>
       </Menu>
       <main id="page-wrap" style={{ overflow: 'auto', height: '100%'}}>
-        <Navbar toggleMenu={toggleMenu} />
-        <MainApp team={context.team} context={context} searchProfile={context.GetTeamInfo} activePage={context.setDefaultPage} />
+        <Navbar toggleMenu={toggleMenu} returnHome={() => setPage('')} />
+        { manageContent(page) }
+        {/*<MainApp team={context.team} context={context} searchProfile={context.GetTeamInfo} activePage={context.setDefaultPage} />*/}
       </main>
     </div>
   )

@@ -205,6 +205,8 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background-image:url("https://fpl-server.vercel.app/public/header-bg-m.svg");
   background-position: 100% 100%;
   background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: center;
 }
 .layout-wrapper {
   max-width: 1220px;

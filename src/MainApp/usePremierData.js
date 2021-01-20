@@ -265,8 +265,6 @@ const usePremierData = () => {
 
     for (let pick of roster) {
       let player = getPlayerByElement(pick.element);
-      let debug = player.web_name === "Dias";
-      if (debug) console.log(player.id);
       // Get the right array for the player. If multiplier === 0, player will be on bench.
       let datapath = data[pick.multiplier && player.element_type];
       /**
