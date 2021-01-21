@@ -4,9 +4,10 @@ import './App.css';
 import 'rsuite/dist/styles/rsuite-default.css';
 import PremierContext from './PremierContext/PremierContext';
 
+import Landing    from './LandingPage';
 import Navbar     from './Navbar';
 import MainApp    from './MainApp';
-import SearchPage from './SearchPage';
+import Settings   from './SettingsPage';
 
 export default function App() {
   const context = useContext(PremierContext);
@@ -27,7 +28,7 @@ export default function App() {
   const toggleMenu = () => {
     setMenu(!menuOpen);
   }
-  
+
   const findUser = () => {
     closeMenu();
     context.clearProfile();
@@ -42,9 +43,9 @@ export default function App() {
   const manageContent = (key) => {
     switch(key) {
       case "Search":
-        return <SearchPage openMainPage={ () => switchPage('') } />
+        return <Landing openMainPage={ () => switchPage('') } />
       case "Settings":
-        return <div>Settings page</div>
+        return <Settings />
       default:
         return <MainApp team={context.team} context={context} searchProfile={context.GetTeamInfo} activePage={context.setDefaultPage} />
     }
@@ -52,6 +53,8 @@ export default function App() {
 
   return (
     <div id="outher-container" style={{height: '100%'}}>
+      {context.team ?
+      <>
       <Menu
         right width={230}
         pageWrapId="page-wrap" 
@@ -68,10 +71,10 @@ export default function App() {
             <span>Find User</span>
           </div>
         </div>
-        <div id="home" className="menu-item" onClick={() => closeMenu()}>
+        <div id="home" className="menu-item" onClick={() => switchPage('Settings')}>
           <div>
             <i className="fas fa-cog"></i>
-            <span style={{ textDecoration:'line-through', color:'#ffffff61'}}>Settings</span>
+            <span>Settings</span>
           </div>
         </div>
       </Menu>
@@ -79,7 +82,7 @@ export default function App() {
         <Navbar toggleMenu={toggleMenu} returnHome={() => setPage('')} />
         { manageContent(page) }
         {/*<MainApp team={context.team} context={context} searchProfile={context.GetTeamInfo} activePage={context.setDefaultPage} />*/}
-      </main>
+      </main></> : <Landing /> }
     </div>
   )
 }

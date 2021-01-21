@@ -26,7 +26,8 @@ const PremierState = ({ children }) => {
       await getFixtures();
     }
     initialInfo();
-    if (state.defaultUser) {
+    if (state.defaultUser && state.defaultUser != 0) {
+      console.log(state.defaultUser);
       searchProfile(state.defaultUser);
     }
   }, [ ]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -230,6 +231,17 @@ const PremierState = ({ children }) => {
     }
   }
 
+  // Delete recent searched profiles, defaultProfile and defaultPage
+  const clearCache = () => {
+    // Delete default User
+    removeDefaultUser();
+    // Delete recent searches
+    localStorage.setItem('recentSearches', JSON.stringify([]));
+    dispatch({ type: SET_RECENT, payload: [] });
+    // Delete defaultPage
+    setDefaultPage('');
+  }
+
   return (
     <PremierContext.Provider 
       value={{
@@ -252,6 +264,7 @@ const PremierState = ({ children }) => {
         getRecentSearches: getRecentProfiles,
         getLeagueStandings,
         updateLeagueStandings,
+        clearCache,
         // These are old code -> SHOULD REMOVE THESE
         GetFixtures: forceUpdateFixtures,
         GetTeamInfo: searchProfile

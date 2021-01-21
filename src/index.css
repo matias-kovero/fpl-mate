@@ -2,6 +2,10 @@
   font-family: 'CarterOne';
   src: url('./fonts/CarterOne-Regular.ttf');
 }
+@font-face {
+  font-family: 'Modak';
+  src: url('./fonts/Modak-Regular.ttf');
+}
 
 body {
   margin: 0;
