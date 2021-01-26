@@ -57,8 +57,7 @@ const PremierState = ({ children }) => {
       dispatch({ type: SET_FIXTURES, payload: json });
       return json;
     } else {
-      addError(`Failed to get fixtures -  ${res.status}`)
-      throw Error(`${res.status} - ${res.statusText}`);
+      addError(`Failed to get fixtures -  ${res.status}`);
     }
   }
 

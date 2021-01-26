@@ -63,11 +63,11 @@ export default function UserInfo({ user, points }) {
                   <div className="gameweek-info-container">
                     <div>
                       <div><span style={{fontWeight: '700', fontSize: 'small'}}>Highest</span></div>
-                      <div><span style={{fontWeight: '700'}}>{currentGameweek.highest_score}</span></div>
+                      <div><span style={{fontWeight: '700'}}>{currentGameweek.highest_score || 0}</span></div>
                     </div>
                   </div>
                 </div>
-                <div><span><small style={{fontSize: 'xx-small'}}>Most Captained: <b>{mostCaptained.web_name}</b></small></span></div>
+                <div><span>{mostCaptained && <small style={{fontSize: 'xx-small'}}>Most Captained: <b>{mostCaptained.web_name}</b></small>}</span></div>
               </div>
               <div className="badge-banner-title">GW {currentGameweek.id}</div>
             </div>
