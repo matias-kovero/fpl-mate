@@ -80,6 +80,7 @@ export default function PlayerCard({ show, onHide, player }) {
     >
       <Modal.Header className="custom-player-view" closeButton>
         <Modal.Title id="contained-modal-title-center" className="player-banner">
+          <div className={`banner-player-news player-status-${player.status}`}>{player.news}</div>
           <div className="banner-player-info pt-3">
             <div className="banner-player-name">
               <b><small style={{fontWeight: 700}}>{player.first_name} {player.web_name}</small></b>

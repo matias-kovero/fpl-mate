@@ -1423,6 +1423,15 @@ img {
   display: flex;
   width: 100%;
 }
+.banner-player-news {
+  position: absolute;
+  font-size: small;
+  margin: auto;
+  width: 87%;
+  text-align: center;
+  border-bottom-left-radius: .5rem;
+  border-bottom-right-radius: .5rem;
+}
 .banner-player-info {
   box-sizing: border-box;
   margin: 0px;
