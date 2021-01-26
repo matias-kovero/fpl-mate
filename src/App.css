@@ -539,6 +539,17 @@ Note: Beware of modifying this element as it can break the animations - you shou
   font-size: 2.5rem;
   font-weight: 700;
 }
+.gameweek-ranking {
+  border-radius: 1rem;
+  font-size: x-small;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: auto;
+  padding: 0 .6rem;
+  margin-top: -.2rem;
+  background-color: #028e529e;
+
+}
 /** END OF USERINFO CSS */ 
 
 /** SEARCH PROFILE CSS */

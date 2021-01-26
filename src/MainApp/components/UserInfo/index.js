@@ -13,6 +13,7 @@ export default function UserInfo({ user, points }) {
   const [ shirt, setShirt ] = useState('');
   const [ rankChange, setRank ] = useState({ num: '0', type: 'neutral' });
   const mostCaptained = getPlayerByElement(currentGameweek.most_captained);
+  const rankPosition = gameweekPercent(user, total_players);
 
   // Update players favourite teams shirt.
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function UserInfo({ user, points }) {
             <span>Overall Rank: <b>{user.summary_overall_rank && user.summary_overall_rank.toLocaleString('fin')}</b> <span className={`rank-change-${rankChange.type}`}>{rankChange.num}</span></span>
           </div>
           <div>
-            <span><small>GW Rank: <b>{user.summary_event_rank && user.summary_event_rank.toLocaleString('fin')}</b> <small style={{verticalAlign: 'text-bottom'}}>Top: {user.summary_event_rank / total_players*100 < 1 ? Math.round((user.summary_event_rank / total_players*100)*100)/100 : Math.round(user.summary_event_rank / total_players*100)}%</small></small></span>
+            <span><small>GW Rank: <b>{user.summary_event_rank && user.summary_event_rank.toLocaleString('fin')}</b></small></span>
           </div>
         </div>
         <div className="team-shirt">
@@ -75,6 +76,7 @@ export default function UserInfo({ user, points }) {
             <div className="badge-banner-container">
               <div className="badge-banner-body">
                 <div className="gameweek-user-points">{points}</div>
+                { rankPosition && <div className="gameweek-ranking">Top: {rankPosition}</div> }
               </div>
               <div className="badge-banner-title">Points</div>
             </div>
@@ -93,4 +95,13 @@ const userRankChange = (leagues) => {
   if (overall.entry_rank < overall.entry_last_rank) { logo = '↑';  type = 'positive' }
   else if (overall.entry_rank > overall.entry_last_rank) { logo = '↓'; type = 'negative' }
   return { num: `${logo}${diff}`, type };
+}
+
+const gameweekPercent = (user, total_players) => {
+  if (!user.summary_event_rank || !total_players) return null;
+  else {
+    return `${user.summary_event_rank / total_players*100 < 1 ?         // Is player under 1%
+    Math.round((user.summary_event_rank / total_players*100)*100)/100 : // Yes, we use 2 decimal accuracy. Ex. 0.53%
+    Math.round(user.summary_event_rank / total_players*100)}%`          // Nope, we use only 1 decimal accuracy. Ex. 4%
+  }
 }
