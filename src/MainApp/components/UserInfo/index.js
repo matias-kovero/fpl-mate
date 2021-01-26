@@ -76,7 +76,7 @@ export default function UserInfo({ user, points }) {
             <div className="badge-banner-container">
               <div className="badge-banner-body">
                 <div className="gameweek-user-points">{points}</div>
-                { rankPosition && <div className="gameweek-ranking">Top: {rankPosition}</div> }
+                { rankPosition && <div className="gameweek-ranking">{rankPosition}</div> }
               </div>
               <div className="badge-banner-title">Points</div>
             </div>
@@ -100,8 +100,9 @@ const userRankChange = (leagues) => {
 const gameweekPercent = (user, total_players) => {
   if (!user.summary_event_rank || !total_players) return null;
   else {
-    return `${user.summary_event_rank / total_players*100 < 1 ?         // Is player under 1%
-    Math.round((user.summary_event_rank / total_players*100)*100)/100 : // Yes, we use 2 decimal accuracy. Ex. 0.53%
-    Math.round(user.summary_event_rank / total_players*100)}%`          // Nope, we use only 1 decimal accuracy. Ex. 4%
+    let pos = user.summary_event_rank / total_players*100 < 1 ?         // Is player under 1
+    Math.round((user.summary_event_rank / total_players*100)*100)/100 : // Yes, we use 2 decimal accuracy. Ex. 0.53
+    Math.round(user.summary_event_rank / total_players*100);            // Nope, we use only 1 decimal accuracy. Ex. 4
+    return pos < 50 ? `Top: ${pos}%` : `Bottom: ${100-pos}%`;
   }
 }
