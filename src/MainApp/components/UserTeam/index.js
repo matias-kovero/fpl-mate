@@ -154,6 +154,7 @@ const RosterTableRow = ({ data, showPlayer }) => {
                 sizes="24px"
               ></img>
             </picture>
+            <div className={`element-status player-status-${data.player.status}`}></div>
           </div>
           <div className="element-media-body">
             <div className="element-body-name">{data.info.is_captain ? <b>{data.info.multiplier === 3 ? '[3xC]' : '[C]'} </b>: (data.info.is_vice_captain ? <b>[V] </b>:null)}{data.player.web_name} <small>{setPieceString(data.player)}</small></div>

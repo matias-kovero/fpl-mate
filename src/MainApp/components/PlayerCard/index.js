@@ -82,7 +82,7 @@ export default function PlayerCard({ show, onHide, player }) {
         <Modal.Title id="contained-modal-title-center" className="player-banner">
           <div className="banner-player-info pt-3">
             <div className="banner-player-name">
-              <b>{player.first_name} {player.second_name}</b>
+              <b><small style={{fontWeight: 700}}>{player.first_name} {player.web_name}</small></b>
             </div>
             <div className={`banner-player-role role-bg${player.element_type} pl-2 pr-2 font-italic`}>
               <h5>{role.singular_name}</h5>

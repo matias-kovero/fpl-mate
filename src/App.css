@@ -1131,6 +1131,22 @@ img {
   margin-right: 1rem;
   min-width: 24px;
   min-height: 31.5px;
+  display: flex;
+  position: relative;
+}
+.element-status {
+  min-width: .3rem;
+  position: absolute;
+  right: -.5rem;
+  top: .1rem;
+  bottom: .1rem;
+  border-radius: 5px;
+}
+.player-status-i {
+  background-color: #c0020d;
+}
+.player-status-d {
+  background-color: #ffe65b;
 }
 .element-media-shirt {
   display: inline-block;
