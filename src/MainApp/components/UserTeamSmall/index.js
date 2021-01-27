@@ -49,7 +49,6 @@ export default function TeamContainer({ roster }) {
 }
 
 const RosterCard = ({ row, show }) => {
-  console.log(row);
   return (
     <Accordion>
     <Card>
