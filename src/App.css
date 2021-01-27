@@ -259,7 +259,8 @@
   background-color: #00ff87 !important;
 }
 .modal-content {
-  box-shadow: #424242 0px 0px 17px 3px;
+  box-shadow: #42424285 0px 0px 17px 3px;
+  border: 0 !important;
 }
 .smaller-text {
   font-size: x-small;
