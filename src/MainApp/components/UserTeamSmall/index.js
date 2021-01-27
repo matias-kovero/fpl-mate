@@ -35,7 +35,7 @@ export default function TeamContainer({ roster }) {
       <div>
         { info ? <PlayerCard show={modal} onHide={() => setModal(false)} player={info} /> : null }
         <div >
-          <div style={{ paddingTop: '1rem', paddingBottom: '2rem'}}>
+          <div style={{ paddingTop: '1rem', paddingBottom: '1rem'}}>
             <RosterCard row={roster[1]} show={showPlayer} />
             <RosterCard row={roster[2]} show={showPlayer} />
             <RosterCard row={roster[3]} show={showPlayer} />
@@ -49,7 +49,7 @@ export default function TeamContainer({ roster }) {
 }
 
 const RosterCard = ({ row, show }) => {
-
+  console.log(row);
   return (
     <Accordion>
     <Card>
@@ -63,9 +63,8 @@ const RosterCard = ({ row, show }) => {
                 <div className="header-cell-container">{row.name}</div>
                 <div className="header-cell-container smaller-text">Played: £{row.played.value/10}/{row.played.sum/10}</div>
               </div>
-              <div style={{ marginRight: '2rem'}}>
+              <div style={{ marginRight: '2rem', paddingTop: '.4rem'}}>
                 <div className="header-cell-container">Show more</div>
-                <div className="header-cell-container smaller-text">{row.players.length}</div>
               </div>
             </div>
           </div>

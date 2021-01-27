@@ -69,16 +69,81 @@ export default function ModalTeam({ user, show, onHide }) {
       centered
     >
       <Modal.Header className="modal-team-header" closeButton>
-        <Modal.Title id="modal-team-title-center" className="modal-team-title">
-          <div className="modal-team-title-container">
-            <div className="modal-team-title-name">{user.player_name}</div>
-            <div className="modal-team-title-event-total">Points: {user.event_total}</div>
-          </div>
+        <Modal.Title id="modal-team-title-center" className="modal-team-title" style={{ fontSize: '1rem', fontWeight: 'initial'}}>
+          <TeamInfo user={user} roster={roster} />
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ padding: '0'}}>
         {!!roster.length && <UserTeam roster={roster} />}
       </Modal.Body>
     </Modal>
+  )
+}
+
+const calcultaValue = (roster) => {
+  if (!roster.length) return 0;
+  else {
+    return Object.values(roster).reduce((t, { played: {sum} }) => t + sum, 0);
+  }
+}
+
+const getCaptain = (roster) => {
+  if (!roster.length) return '???';
+  else {
+    let captain = roster.reduce((result, i) => {
+      let check = i.players.filter(p => { return p.info.is_captain } );
+      if (check.length) result.push(check[0].player.web_name);
+      return result;
+    }, []);
+    return captain;
+  }
+}
+
+/**
+ * 
+ * @param {Object} props
+ * @param {import('../../../PremierContext/premier').StandingsPlayer} props.user - User Object 
+ */
+const TeamInfo = ({ user, roster }) => {
+  const captain = React.useMemo(() => getCaptain(roster), [roster]);
+  const teamValue = React.useMemo(() => calcultaValue(roster), [ roster ]);
+
+  return (
+    <div className="default-container-transparent" style={{ borderTopLeftRadius: '.2rem', borderTopRightRadius: '.2rem'}}>
+        <div className="gameweek-wrapper">
+          <div className="badge-banner">
+            <div className="badge-banner-container">
+              <div className="badge-banner-body">
+                <div className="gameweek-info-wrapper">
+                  <div className="gameweek-info-container">
+                    <div style={{fontWeight: '700'}}>
+                      <div><span style={{fontWeight: '700', fontSize: 'small'}}>Format</span></div>
+                      <div><span>{roster && <small style={{fontSize: 'small'}}><b>{!!roster.length && `${roster[2].players.length}-${roster[3].players.length}-${roster[4].players.length}`}</b></small>}</span></div>
+                      {/*<div><span style={{fontWeight: '700'}}>{currentGameweek.average_entry_score}</span></div>*/}
+                    </div>
+                  </div>
+                  <div className="gameweek-info-container">
+                    <div>
+                      <div><span style={{fontWeight: '700', fontSize: 'small'}}>Value</span></div>
+                      <div><span style={{fontWeight: '700'}}>{teamValue && <small style={{fontSize: 'small'}}><b>{`${teamValue/10}`}</b></small>}</span></div>
+                    </div>
+                  </div>
+                </div>
+                {<div><span>{roster && <small style={{fontSize: 'small'}}>Captain: <b>{captain}</b></small>}</span></div>}
+              </div>
+              <div className="badge-banner-title" style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{user.player_name}</div>
+            </div>
+          </div>
+          <div className="badge-banner">
+            <div className="badge-banner-container">
+              <div className="badge-banner-body">
+                <div className="gameweek-user-points">{user.event_total}</div>
+                <div className="gameweek-ranking">Total: {user.total}</div>
+              </div>
+              <div className="badge-banner-title">Points</div>
+            </div>
+          </div>
+        </div>
+      </div>
   )
 }

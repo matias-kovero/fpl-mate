@@ -548,7 +548,17 @@ Note: Beware of modifying this element as it can break the animations - you shou
   padding: 0 .6rem;
   margin-top: -.2rem;
   background-color: #028e529e;
-
+}
+.modal-team-header {
+  padding: 0 !important;
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
+  display: inline !important;
+}
+.modal-team-header .close {
+  position: absolute;
+  top: 0;
+  right: .25rem;
 }
 /** END OF USERINFO CSS */ 
 
