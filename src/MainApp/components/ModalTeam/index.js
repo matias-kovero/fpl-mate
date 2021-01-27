@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 import PremierContext from '../../../PremierContext';
 import usePremierData from '../../usePremierData';
 
-import UserTeam from '../UserTeam';
+import UserTeam from '../UserTeamSmall';
 
 /**
  * Render users current picks.
@@ -64,7 +64,7 @@ export default function ModalTeam({ user, show, onHide }) {
     <Modal
       show={show}
       onHide={onHide}
-      size="sm"
+      size="md"
       aria-labelledby="contained-modal-title-center"
       centered
     >
@@ -76,7 +76,7 @@ export default function ModalTeam({ user, show, onHide }) {
           </div>
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body style={{ padding: '0'}}>
         {!!roster.length && <UserTeam roster={roster} />}
       </Modal.Body>
     </Modal>

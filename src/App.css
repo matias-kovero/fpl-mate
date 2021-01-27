@@ -719,6 +719,39 @@ Note: Beware of modifying this element as it can break the animations - you shou
   font-weight: 500;
   vertical-align: middle;
 }
+.team-row-container {
+  padding: 0 !important;
+  font-size: small;
+}
+.team-row-container div[role="th"] {
+  padding: 0.4rem 0.6rem;
+  font-size: smaller;
+  font-weight: bold;
+  margin: auto;
+}
+.team-row-container div[role="td"] {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  /*border-bottom: 1px solid rgb(239, 239, 239); */
+}
+.team-row-cell-pr {
+  font-size: xx-small;
+  padding: 0.4rem;
+  width: 10%;
+  margin: auto;
+}
+.team-row-element-cell {
+  position: relative;
+  width: 68%;
+  margin: auto;
+}
+.team-row-element-stats {
+  font-weight: bold;
+  font-size: smaller;
+  padding: 0.5rem;
+  width: 22%;
+  margin: auto;
+}
 /** END OF ROSTER CSS */
 
 /** TEAM PREVIEW CSS */
@@ -1123,7 +1156,7 @@ img {
   font-size: xx-small;
   padding: 0.4rem;
 }
-.element-cell::after {
+.element-cell::after, .team-row-element-cell::after {
   content: "";
   position: absolute;
   top: .6rem;
