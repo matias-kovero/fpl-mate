@@ -34,18 +34,6 @@ export default function LandingPage({ openMainPage }) {
             <p>Fantasy premier league companion app</p>
           </div>
         </div>
-        {/*
-        <div className="landing-text">
-          <div style={{paddingTop: '20%', fontSize: 'smaller', color: '#ae7bb3'}}>
-            Small description
-          </div>
-        </div>
-        <div className="landing-text-additional">
-          <div style={{paddingTop: '.3rem', fontSize: 'smaller', color: '#ae7bb3', textAlign: 'left', paddingLeft: '.75rem'}}>
-            <div>You can search teams with Team name, Player name</div>
-            <div>or with team id.</div>
-          </div>
-        </div>*/}
         <div className="landing-action-box">
           <div style={{fontSize: 'smaller', color: '#ae7bb3'}}>
             <SearchUser searchProfile={searchProfile} />
@@ -71,7 +59,7 @@ export default function LandingPage({ openMainPage }) {
         }
         <div className="landing-footer-logo">
           <div style={{padding: '1rem', fontSize: 'smaller', color: '#ffe8b6'}}>
-            <small>Mobile users, add this page to your homescreen for a better user experience.</small>
+            <small data-nosnippet>Mobile users, add this page to your homescreen for a better user experience.</small>
           </div>
         </div>
       </div>
