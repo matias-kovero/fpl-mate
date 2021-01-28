@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import usePremierData from '../../usePremierData';
 import PlayerCard from '../PlayerCard';
+import ModalPlayer from '../ModalPlayer';
 import Fixtures   from '../PlayerFixtures';
 
 /**
@@ -45,7 +46,8 @@ export default function UserTeam({ roster }) {
 
   return (
     <div className="roster-wrapper">
-      { info ? <PlayerCard show={modal} onHide={() => setModal(false)} player={info} /> : null }
+      { info ? <ModalPlayer player={info} show={modal} onHide={() => setModal(false)} /> : null }
+      {/* info ? <PlayerCard show={modal} onHide={() => setModal(false)} player={info} /> : null */}
       <div className="players-container">
         <div>
           <RosterTable row={roster[1]} showPlayer={showPlayer} />

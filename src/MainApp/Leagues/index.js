@@ -33,7 +33,6 @@ export default function Leagues({ user }) {
   const showPlayer = (p) => {
     setPlayer(p);
     setModal(true);
-    console.log('Preview:', p);
   }
 
   /**

@@ -300,6 +300,9 @@ button:focus {
   border: 0 !important;
   border-radius: 0 !important;
 }
+.modal-backdrop.show {
+  opacity: .6 !important;
+}
 .card-header {
   border-bottom: 0 !important;
   padding: 0;
@@ -1202,6 +1205,7 @@ img {
 }
 .player-status-d {
   background-color: #ffe65b;
+  color: #000;
 }
 .element-media-shirt {
   display: inline-block;
@@ -1451,6 +1455,112 @@ img {
 }
 
 /** PLAYER BANNER CSS */
+.modal-playercard {
+  color: #FFF;
+  border: 0px !important;
+  padding: 0px 1rem !important;
+  background-color: rgb(55, 0, 60);
+  background-image: url("https://fpl-server.vercel.app/public/eiw-bg-m.svg");
+  background-repeat: no-repeat;
+  background-size: auto;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px;
+}
+.modal-playercard-body {
+  background-color: rgb(55, 0, 60);
+  color: #FFF;
+}
+.banner-player-basic-info {
+  background-color: #0000000d;
+  display: flex;
+  padding-top: 1rem;
+}
+.banner-player-image-container {
+  position: relative;
+  border: 2px solid;
+  border-radius: 5px;
+  width: 70px;
+  min-width: 65px;
+  height: 82px;
+  overflow: hidden;
+}
+.banner-player-image-small {
+  position: absolute;
+  left: -15px;
+  top: 5px;
+  filter: drop-shadow(-2px 2px 6px black);
+}
+.banner-player-info-container {
+  padding: 0 .5rem;
+  margin-top: -.7rem;
+  overflow: hidden;
+}
+.banner-player-role {
+  line-height: 1rem !important;
+  height: 100%;
+  padding-bottom: .4rem;
+}
+.banner-player-team {
+  font-size: large;
+  line-height: 1rem !important;
+  display: flex;
+}
+.banner-player-fixtures {
+  line-height: .8rem !important;
+  padding: .4rem 0;
+}
+.banner-player-additional-info {
+  background-color: #00000070;
+  width: 100%;
+  min-height: 7rem;
+  border-radius: 5px;
+}
+.banner-player-history-wrapper { display: flex; }
+.player-history-stats {
+  padding: 1rem;
+  line-height: normal !important;
+  font-size: small;
+}
+.player-ovr-stats {
+  display: flex;
+  justify-content: space-evenly;
+}
+/** PLAYER HISTORY TABLE CSS */
+.pht, .player-history-stats { width: 50% !important; flex: 1 1 auto; }
+.pht-header { width: 100% !important; }
+.pht-tr {
+  font-size: small !important;
+  background-color: #00000070 !important;
+  color: #FFF !important;
+  border-bottom: 1px solid #292929 !important;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+/* HEADERS - Check width sum 100% */
+/*
+.pht-tr div.th:nth-child(1), .pht-tr div.td:nth-child(1) {
+  width: 10% !important;
+  text-align: center;
+}
+.pht-tr div.th:nth-child(2), .pht-tr div.td:nth-child(2) {
+  width: 20% !important;
+  text-align: center;
+}
+.pht-tr div.th:nth-child(3), .pht-tr div.td:nth-child(3) {
+  width: 15% !important;
+  text-align: center;
+}*/
+
+/* COLUMNS */
+.pht-tr div.th:nth-child(even) {
+  background-color: #45124a;
+}
+.pht-tr div.td:nth-child(even) {
+  background-color: #240240;
+}
+
+/** END OF TABLE CSS */
+
 .custom-player-view {
   color: #FFF;
   margin-bottom: 1.5rem;
@@ -1466,6 +1576,8 @@ img {
 .player-banner {
   display: flex;
   width: 100%;
+  flex-direction: column;
+  min-height: 15rem;
 }
 .banner-player-news {
   position: absolute;
@@ -1482,10 +1594,6 @@ img {
   min-width: 0px;
   flex: 1 1 0%;
   position: relative;
-}
-.banner-player-team {
-  margin-top: -13px;
-  font-size: large;
 }
 .banner-player-stats {
   font-size: small;
@@ -1515,6 +1623,18 @@ img {
 }
 .role-bg4 {
   background-color: #e90052;
+}
+.border-bg1 {
+  border-color: #ebff00;
+}
+.border-bg2 {
+  border-color: #00ff87;
+}
+.border-bg3 {
+  border-color: #05f0ff;
+}
+.border-bg4 {
+  border-color: #e90052;
 }
 
 .player-fixtures, .player-fixtures-mini {
@@ -1582,6 +1702,7 @@ img {
 }
 .fixture-bg5 {
   background-color: #80072d;
+  color: #FFF;
 }
 .next-week::after {
   content: "";

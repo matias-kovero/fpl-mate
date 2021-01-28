@@ -69,10 +69,10 @@ export default function Fixtures() {
       <h5 className="gameweek-deadline">{gameweek.name} - {deadline} {time}</h5>
         <div className="pager-container">
           <div className="pager-button">
-            <button className="arrow-button" onClick={() => setOffset(offset-1)} disabled={gameweek.is_first}><div>❰</div>Previous</button>
+            <button className="arrow-button" onClick={() => setOffset(offset-1)} disabled={gameweek.is_first}><div><i className="fas fa-chevron-left"></i></div>Previous</button>
           </div>
           <div className="pager-button-next">
-            <button className="arrow-button" onClick={() => setOffset(offset+1)} disabled={gameweek.is_last}>Next<div>❱</div></button>
+            <button className="arrow-button" onClick={() => setOffset(offset+1)} disabled={gameweek.is_last}>Next<div><i className="fas fa-chevron-right"></i></div></button>
           </div>
         </div>
         <br/>

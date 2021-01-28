@@ -171,7 +171,6 @@ function Table({ columns, data, preview, user, currentRank, prevRank, hasNextPag
     getTableBodyProps,
     headerGroups,
     rows,
-    totalColumnsWidth,
     prepareRow
   } = useTable(
     { 
@@ -270,7 +269,8 @@ function Table({ columns, data, preview, user, currentRank, prevRank, hasNextPag
             onClick={() => preview({ 
               entry: user.id, 
               player_name: `${user.player_first_name} ${user.player_last_name}`, 
-              event_total: user.summary_event_points 
+              event_total: user.summary_event_points,
+              total: user.summary_overall_points
             }) }
           >
             <div role="cell" className="td"><RankCell value={currentRank} row={{original: { last_rank: prevRank, rank: currentRank }}} /></div>
