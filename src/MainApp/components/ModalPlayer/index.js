@@ -38,6 +38,11 @@ export default function ModalPlayer({ show, onHide, player }) {
   )
 }
 
+/**
+ * 
+ * @param {Object} props 
+ * @param {import('../../../PremierContext/premier').Element} props.player - Player data 
+ */
 const PlayerHeader = ({ player, fixtures }) => {
   const { getPlayerPicture, getTeamById, getRole, getTeamBadge } = usePremierData();
   const picture = getPlayerPicture(player.code);
@@ -65,20 +70,28 @@ const PlayerHeader = ({ player, fixtures }) => {
         </div>
         <div className="banner-player-info-container">
           <div className="banner-player-name">
-            <small style={{ fontWeight: '700' }}>{player.first_name} {player.web_name}</small>
+            <small style={{ fontWeight: '700', fontSize: 'large' }}>{player.first_name} {player.web_name}</small>
           </div>
-          <div style={{ display: 'flex' }}>
-            <div className={`banner-player-role role-bg${player.element_type} pl-1 pr-2 font-italic`}>
-              <small style={{ fontWeight: '600' }}>{role.singular_name}</small>
+          <div style={{ display: 'flex', height: '25px', gap: '.5rem' }}>
+            <div className="team-badge" style={{ marginLeft: 0, marginRight: 0 }}>
+              <img alt={`badge ${team.name}`} role="presentation" className="team-badge-styled"
+                sizes="(min-width: 1024px) 40px, 25px" src={`${badge}_40.png`}
+                srcSet={`${badge}_40.png 40w, ${badge}_80.png 80w`}
+              />
             </div>
-            <div className="banner-player-team">
-              <div className="team-badge">
-                <img alt={`badge ${team.name}`} role="presentation" className="team-badge-styled"
-                  sizes="(min-width: 1024px) 40px, 25px" src={`${badge}_40.png`}
-                  srcSet={`${badge}_40.png 40w, ${badge}_80.png 80w`}
-                />
+            <div style={{ lineHeight: '.6rem'}}>
+              <div className={`banner-player-role role-bg${player.element_type} pl-1 pr-2 font-italic`}>
+                <small style={{ fontWeight: '600' }}>{role.singular_name}</small>
               </div>
-              <div><small style={{ fontWeight: '700', lineHeight: 'normal' }}>{team.name}</small></div>
+              <div>
+                <small style={{ fontWeight: '700', fontSize: 'x-small' }}>{team.name}</small>
+              </div>
+            </div>
+            <div className="price-and-points">
+              <span><i className="fas fa-pound-sign"></i> {player.now_cost/10}</span>
+            </div>
+            <div className="price-and-points">
+              <span><b>Pts</b> {player.total_points}</span>
             </div>
           </div>
           <div className="banner-player-fixtures">

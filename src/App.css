@@ -258,9 +258,17 @@
 .toast-body {
   background-color: #00ff87 !important;
 }
+.h4 { font-size: inherit !important;}
+.modal-title {
+  line-height: normal !important;
+}
 .modal-content {
   box-shadow: #42424285 0px 0px 17px 3px;
   border: 0 !important;
+}
+.modal-header .close {
+  padding: 0 !important;
+  margin: 1rem 0 0 -1rem !important;
 }
 .smaller-text {
   font-size: x-small;
@@ -886,10 +894,6 @@ img {
     position: relative;
     right: 3em;
   }
-  .close {
-    position: absolute !important;
-    right: .2em;
-  }
 }
 @media (min-width: 38.125em) {
   .pitch {
@@ -1195,7 +1199,7 @@ img {
 .element-status {
   min-width: .3rem;
   position: absolute;
-  right: -.5rem;
+  left: -.6rem;
   top: .1rem;
   bottom: .1rem;
   border-radius: 5px;
@@ -1472,7 +1476,7 @@ img {
 .banner-player-basic-info {
   background-color: #0000000d;
   display: flex;
-  padding-top: 1rem;
+  padding-top: 1.5rem;
 }
 .banner-player-image-container {
   position: relative;
@@ -1491,13 +1495,11 @@ img {
 }
 .banner-player-info-container {
   padding: 0 .5rem;
-  margin-top: -.7rem;
   overflow: hidden;
 }
 .banner-player-role {
-  line-height: 1rem !important;
-  height: 100%;
-  padding-bottom: .4rem;
+  line-height: .8rem !important;
+  font-size: small;
 }
 .banner-player-team {
   font-size: large;
