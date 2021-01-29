@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Accordion, Card } from 'react-bootstrap';
 import usePremierData from '../../usePremierData';
-import PlayerCard from '../PlayerCard';
+import PlayerCard from '../ModalPlayer';
 import Fixtures   from '../PlayerFixtures';
 
 /**

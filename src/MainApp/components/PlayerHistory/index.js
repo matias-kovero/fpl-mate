@@ -109,7 +109,7 @@ export default function PlayerHistory({ fixtures, type }) {
   // console.log(fixtures);
   const columns = React.useMemo(
     () => selectColumns(type), [type]
-  )
+  );
   const latest_match = React.useMemo(() => fixtures.history[fixtures.history.length - 1], [fixtures]);
   const stats = React.useMemo(() => getSeasonStats(fixtures), [fixtures]);
 
@@ -117,13 +117,15 @@ export default function PlayerHistory({ fixtures, type }) {
     <div className="banner-player-history-wrapper">
       <Table columns={columns} data={sortedData} />
       <div className="player-history-stats">
+        <div className="player-subs" style={{ paddingBottom: '.5rem' }}>
+          <div className="active-in" style={{ textAlign: 'center' }}>Selected by: {latest_match.selected.toLocaleString()}</div>
+          <div className="subs-change" style={{ display: 'flex', gap: '.5rem', justifyContent: 'center' }}>
+            <div className="change-out">{latest_match.transfers_out.toLocaleString()} <span style={{ color: 'red' }}><i className="fas fa-caret-left"></i></span></div>
+            <div className="change-in"><span style={{ color: 'green' }}><i className="fas fa-caret-right"></i></span> {latest_match.transfers_in.toLocaleString()}</div>
+          </div>
+        </div>
         <div className="player-ovr-stats">
-          <div>
-            <b><i className="fas fa-pound-sign"></i> <small style={{ fontWeight: '700' }}>{latest_match.value/10}</small></b>
-          </div>
-          <div>
-            <b><span>Pts</span> <small style={{ fontWeight: '700' }}>{stats.total_points}</small></b>
-          </div>
+
         </div>
         <div className="player-ovr-stats">
           {renderOvrStats(stats, type)}
