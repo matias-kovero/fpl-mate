@@ -51,7 +51,7 @@ export default function MainApp({ team, context, searchProfile, activePage }) {
   )
 }
 
-const LoadingScreen = ({}) => {
+export const LoadingScreen = ({}) => {
 
   return (
     <div className="loading-wrapper">

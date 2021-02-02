@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
-import { SET_SEASON, SET_TEAM, SET_ELEMENTS, SET_FIXTURES, SET_USER, SET_RECENT, SET_PAGE } from './types';
+import { SET_SEASON, SET_TEAM, SET_ELEMENTS, SET_FIXTURES, SET_USER, SET_RECENT, SET_PAGE, SET_LOADED } from './types';
 import PremierContext from './PremierContext';
 import PremierReducer from './PremierReducer';
 import useAPIError from '../ApiErrorContext/useAPIError';
@@ -14,6 +14,7 @@ const initialState = {
   recents: JSON.parse(localStorage.getItem('recentSearches') || "[]" ),
   elements: null,
   fixtures: null,
+  loaded: false,
 };
 
 const PremierState = ({ children }) => {
@@ -26,9 +27,15 @@ const PremierState = ({ children }) => {
       await getFixtures();
     }
     initialInfo();
+    async function initialSearch(profile) {
+      await searchProfile(profile);
+      dispatch({ type: SET_LOADED, payload: true });
+    }
+    
     if (state.defaultUser && state.defaultUser != 0) {
-      console.log(state.defaultUser);
-      searchProfile(state.defaultUser);
+      initialSearch(state.defaultUser);
+    } else {
+      dispatch({ type: SET_LOADED, payload: true });
     }
   }, [ ]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -244,6 +251,7 @@ const PremierState = ({ children }) => {
   return (
     <PremierContext.Provider 
       value={{
+        loaded: state.loaded,
         team: state.team,
         season: state.season,
         elements: state.elements,

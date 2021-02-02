@@ -6,7 +6,7 @@ import PremierContext from './PremierContext/PremierContext';
 
 import Landing    from './LandingPage';
 import Navbar     from './Navbar';
-import MainApp    from './MainApp';
+import MainApp, { LoadingScreen }    from './MainApp';
 import Settings   from './SettingsPage';
 
 export default function App() {
@@ -53,7 +53,7 @@ export default function App() {
 
   return (
     <div id="outher-container" style={{height: '100%'}}>
-      {context.team ?
+      { !context.loaded ? <LoadingScreen /> : context.team ?
       <>
       <Menu
         right width={230}

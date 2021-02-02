@@ -1,9 +1,14 @@
-import { SET_SEASON, SET_TEAM, SET_ELEMENTS, SET_FIXTURES, SET_USER, SET_RECENT, SET_PAGE } from './types';
+import { SET_SEASON, SET_TEAM, SET_ELEMENTS, SET_FIXTURES, SET_USER, SET_RECENT, SET_PAGE, SET_LOADED } from './types';
 
 export default (state, action) => {
   const { payload, type } = action;
 
   switch (type) {
+    case SET_LOADED: 
+      return {
+        ...state,
+        loaded: payload
+      };
     case SET_SEASON:
       return {
         ...state,
