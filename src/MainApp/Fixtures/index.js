@@ -59,6 +59,20 @@ export default function Fixtures() {
     setPlayer(info);
     setModal(true);
   }
+  useEffect(() => {
+    if (offset === 0) {
+      const interval = setInterval(async () => {
+        await fetchFixtures();
+      }, 120000); // 2min
+      return () => {
+        clearInterval(interval);
+      }
+    }
+    // Do something on render
+    return () => {
+      // Clear when unmount
+    };
+  }, [ offset ]);
 
   // When switching get fixtures information again -> as it might update scores!
 
@@ -242,6 +256,10 @@ const getPlayers = (match, live, calculateGame) => {
   return calculated_players;
 }
 
+/**
+ * CHECK WHEN TO RENDER
+ * @param {*} param0 
+ */
 export function PlayerList({ data, showPlayer }) {
   const { currentGameweek, useLiveData, getPointsFromLiveData, calculateGame } = usePremierData();
   const { data: liveData, loading } = useLiveData(currentGameweek.id);

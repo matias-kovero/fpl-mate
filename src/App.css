@@ -1034,7 +1034,7 @@ img {
   background-color: rgb(55, 0, 60);
 }
 .match-live {
-  position: fixed;
+  position: absolute;
   margin-top: -0.4rem;
   margin-left: -0.4rem;
   font-weight: 700;

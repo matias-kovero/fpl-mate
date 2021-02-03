@@ -96,12 +96,13 @@ const PremierState = ({ children }) => {
 
   const forceUpdateFixtures = async() => {
     const endpoint = `${API_BASE_URL}/fixtures/`;
-    let result = await fetch(endpoint, { method: 'GET' });
-    if ([200].includes(result.status)) {
-      let json = await result.json();
+    let res = await fetch(endpoint, { method: 'GET' });
+    if ([200].includes(res.status)) {
+      let json = await res.json();
+      dispatch({ type: SET_FIXTURES, payload: json });
       return json;
     } else {
-      throw Error(`${result.status} - ${result.statusText}`);
+      addError(`Failed to get fixtures -  ${res.status}`);
     }
   }
 
