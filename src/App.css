@@ -52,7 +52,7 @@
 }
 .settings-main {
   min-height: calc(100vh - 3.5rem);
-  background-color: #484848 !important;
+  background-color: #48484829 !important;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -69,12 +69,17 @@
   margin: auto;
 }
 .settings-buttons {
-  width: 80%;
   max-width: 450px;
-  min-height: 200px;
+  /* min-height: 200px; */
   margin-top: 2rem;
-  background-color: #899096fa;
   border-radius: .25rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 70%;
+  gap: 1rem;
+}
+.settings-buttons .card {
+  border-radius: .25rem !important;
 }
 .landing-main {
   min-height: 100vh;
@@ -266,7 +271,7 @@
   box-shadow: #42424285 0px 0px 17px 3px;
   border: 0 !important;
 }
-.modal-header .close {
+.modal-playercard .close {
   padding: 0 !important;
   margin: 1rem 0 0 -1rem !important;
 }
@@ -1028,6 +1033,14 @@ img {
   padding: 0.4rem;
   background-color: rgb(55, 0, 60);
 }
+.match-live {
+  position: fixed;
+  margin-top: -0.4rem;
+  margin-left: -0.4rem;
+  font-weight: 700;
+  line-height: .6rem;
+  font-size: xx-small;
+}
 .team-score {
   flex: 1 1 0%;
   padding: 0.3rem 0px;
@@ -1204,7 +1217,7 @@ img {
   bottom: .1rem;
   border-radius: 5px;
 }
-.player-status-i {
+.player-status-i, .player-status-s {
   background-color: #c0020d;
 }
 .player-status-d {
@@ -1477,6 +1490,7 @@ img {
   background-color: #0000000d;
   display: flex;
   padding-top: 1.5rem;
+  padding-bottom: .5rem;
 }
 .banner-player-image-container {
   position: relative;
@@ -1582,10 +1596,11 @@ img {
   min-height: 15rem;
 }
 .banner-player-news {
-  position: absolute;
+  position: fixed;
   font-size: small;
   margin: auto;
-  width: 87%;
+  right: 1.5rem;
+  left: 1.5rem;
   text-align: center;
   border-bottom-left-radius: .5rem;
   border-bottom-right-radius: .5rem;

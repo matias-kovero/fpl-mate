@@ -123,6 +123,11 @@ export function Match({ data, number, showPlayer }) {
         { data.started ? <div className="match-score">
           <span className="team-score">{data.team_h_score}</span>
           <span className="team-score">{data.team_a_score}</span>
+          { !data.finished && !data.finished_provisional && 
+            <div className="match-live">
+              <div style={{ backgroundColor: '#01fc7a', padding: '0 .2rem'}}>LIVE</div>
+            </div>
+          }
         </div> : <span className="fixture-time">{new Date(data.kickoff_time).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</span> }
         <div className="away-team">
           <div className="team-badge">
@@ -278,47 +283,6 @@ export function PlayerList({ data, showPlayer }) {
   )
 }
 
-/**
- * Generate list view of acclaimed points to player from specific match data.
- * @param {*} data 
- */
-const parseMatchData = (data, live, getPoints) => {
-  console.log('Data', data, 'live', live);
-  let players = [];
-  if (!live) return null;
-
-  // Loop all gamestats, and add element Id's to an array.
-  players = data.stats.reduce((result, i, arr) => {
-    // Check i.a && i.h, both are possible arrays of players with point giving attributes.
-    let elements = i.a.concat(i.h);
-    if (elements.length) {
-      // Getting only players element Id
-      let ids = elements.map(e => e.element);
-      result.push(...ids);
-    }
-    return result;
-  }, []);
-
-  // Array might contain duplicates, removing them.
-  players = [... new Set(players)];
-
-  // !!! Retarded logic warning !!!
-  let calculated_players = players.map(p => {
-    let player = live.elements.find(e => e.id === p);
-    // Check if points acclaimed in current match!
-    // Need this as might be multiple matches per week.
-    let match = player.explain.find(e => e.fixture === data.id);
-    if (match) {
-      let ovr_points = getPoints(p, live);
-      return { element: p, stats: [...match.stats], points: ovr_points };
-    }
-  });
-
-  // Sort players by points
-  calculated_players.sort((a,b) => b.points - a.points);
-
-  return calculated_players;
-}
 /**
  * 
  * @param {Object} props
