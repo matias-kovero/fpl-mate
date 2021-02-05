@@ -1596,7 +1596,7 @@ img {
   min-height: 15rem;
 }
 .banner-player-news {
-  position: fixed;
+  position: absolute;
   font-size: small;
   margin: auto;
   right: 1.5rem;

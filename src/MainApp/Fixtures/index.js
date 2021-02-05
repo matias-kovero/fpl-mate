@@ -4,7 +4,7 @@ import {
   ButtonGroup,
   Button,
 } from 'rsuite';
-import PlayerCard from '../components/PlayerCard';
+import PlayerCard from '../components/ModalPlayer';
 
 import usePremierData from '../usePremierData'; 
 
@@ -135,8 +135,8 @@ export function Match({ data, number, showPlayer }) {
           </div>
         </div>
         { data.started ? <div className="match-score">
-          <span className="team-score">{data.team_h_score}</span>
-          <span className="team-score">{data.team_a_score}</span>
+          <span className="team-score">{0 || data.team_h_score}</span>
+          <span className="team-score">{0 || data.team_a_score}</span>
           { !data.finished && !data.finished_provisional && 
             <div className="match-live">
               <div style={{ backgroundColor: '#01fc7a', padding: '0 .2rem'}}>LIVE</div>
