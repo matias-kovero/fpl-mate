@@ -130,7 +130,7 @@ const usePremierData = () => {
     let player = live.elements.find(e => e.id === id);
 
     if (!player) return null;
-    
+
     else if (player.explain.length && player.explain[0].stats) {
       return player.explain.map(f => {
         return f.stats.reduce((a, b) => {
@@ -246,7 +246,17 @@ const usePremierData = () => {
     });
     return { bonus: points, remove };
   }
-
+  /**
+   * Check is players matches have started.
+   * @param {*} matches 
+   */
+  function matchesStarted(matches) {
+    //matches.gameweek[] -> started: true, show player points, else hide them.
+    // might be an array or not. If 1 object contains true, we return true, as there might be double wknds...
+    if (!matches || !matches.gameweek) return false;
+    let started = matches.gameweek.filter(m => m.started);
+    return !!started.length;
+  }
   /**
    * Calculates all needed information to players active roster.  
    * Returns object: { points, data }
@@ -277,6 +287,7 @@ const usePremierData = () => {
       let games = matches.find(t => t.id === player.team);
       let points = getPointsFromLiveData(player.id, live);
       let { bonus, remove } = getPlayerBonusPoints(player.id, games);
+      //console.log(player.web_name, matchesStarted(games)); // games.gameweek[] -> started: true, show player points, else hide them.
       // Player has bonus points and they are added to event points.
       if (bonus && points === player.event_points) {
         if (remove) points = (points - remove);
@@ -285,6 +296,7 @@ const usePremierData = () => {
       datapath.players.push({
         player,
         info: pick,
+        started: matchesStarted(games),
         points: {
           value: points * pick.multiplier,
           bonus: bonus * pick.multiplier

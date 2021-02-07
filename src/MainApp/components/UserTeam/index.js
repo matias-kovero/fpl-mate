@@ -166,7 +166,7 @@ const RosterTableRow = ({ data, showPlayer }) => {
           </div>
         </div>
       </td>
-      <td className="element-cell-stats">{data.points.bonus ? <div>{data.points.bonus + data.points.value} <span className="player-points-info">({data.points.value} + {data.points.bonus})</span></div> : data.points.value ? `${data.points.value}` : null}</td>
+      <td className="element-cell-stats">{data.started ? data.points.bonus ? <div>{data.points.bonus + data.points.value} <span className="player-points-info">({data.points.value} + {data.points.bonus})</span></div> : `${data.points.value}` : null}</td>
     </tr>
   )
 }

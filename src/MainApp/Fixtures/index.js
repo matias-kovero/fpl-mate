@@ -1,9 +1,10 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { Accordion, Card } from 'react-bootstrap';
+import { Accordion, Card, ButtonGroup, Button } from 'react-bootstrap';
+/*
 import {
   ButtonGroup,
   Button,
-} from 'rsuite';
+} from 'rsuite';*/
 import PlayerCard from '../components/ModalPlayer';
 
 import usePremierData from '../usePremierData'; 
@@ -40,6 +41,7 @@ const filterGameDays = (matches) => {
 /**
  * Display season all fixtures.
  * Buttons to view previous and next gameweeks.
+ * !! Remove data fetching on playerlist, and fetch data here -> give same data to every list.
  * @param {*} param0 
  */
 export default function Fixtures() {
@@ -168,9 +170,9 @@ export function MatchWrapper({ data, showPlayer }) {
   return (
     <>
       <div className="list-type-button-container">
-        <ButtonGroup justified size="xs" className="list-type-buttons">
+        <ButtonGroup size="sm" className="list-type-buttons">
           { LISTTYPE.map((type, i) => {
-            return <Button key={i} active={selected === type} onClick={() => setSelected(type)}>{type}</Button>
+            return <Button variant="light" key={i} active={selected === type} onClick={() => setSelected(type)}>{type}</Button>
           }) }
         </ButtonGroup>
       </div>

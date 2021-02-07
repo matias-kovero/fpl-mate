@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {
+/*import {
   ButtonGroup,
   Button,
   Container
-} from 'rsuite';
+} from 'rsuite';*/
+import { ButtonGroup, Button } from 'react-bootstrap';
 import PremierContext from '../../PremierContext';
 import LeagueInfo from '../components/LeagueInfo';
 import ModalTeam from '../components/ModalTeam';
@@ -49,9 +50,9 @@ export default function Leagues({ user }) {
       <div className="layout-main">
         { player ? <ModalTeam show={modal} onHide={() => setModal(false)} user={player} /> : null }
         <div className="league-button-container">
-          <ButtonGroup justified size="xs" className="league-buttons">
+          <ButtonGroup size="sm" className="league-buttons">
             {classic.map((cl, i) => {
-              return <Button key={i} active={league.name === cl.name} onClick={() => selectLeague(cl)}>{cl.name} </Button>
+              return <Button variant="light" key={i} active={league.name === cl.name} onClick={() => selectLeague(cl)}>{cl.name} </Button>
             })}
           </ButtonGroup>
         </div>

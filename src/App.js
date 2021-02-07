@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Menu from 'react-burger-menu/lib/menus/slide';
 import './App.css';
-import 'rsuite/dist/styles/rsuite-default.css';
 import PremierContext from './PremierContext/PremierContext';
 
 import Landing    from './LandingPage';
