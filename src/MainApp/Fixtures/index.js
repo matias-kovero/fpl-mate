@@ -1,10 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Accordion, Card, ButtonGroup, Button } from 'react-bootstrap';
-/*
-import {
-  ButtonGroup,
-  Button,
-} from 'rsuite';*/
 import PlayerCard from '../components/ModalPlayer';
 
 import usePremierData from '../usePremierData'; 

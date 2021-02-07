@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from 'react';
-/*import {
-  ButtonGroup,
-  Button,
-  Container
-} from 'rsuite';*/
 import { ButtonGroup, Button } from 'react-bootstrap';
 import PremierContext from '../../PremierContext';
 import LeagueInfo from '../components/LeagueInfo';

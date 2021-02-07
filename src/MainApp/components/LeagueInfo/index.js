@@ -2,10 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import usePremierData from '../../usePremierData';
 import PremierContext from '../../../PremierContext';
 
-import {
-  Placeholder,
-} from 'rsuite'; //https://github.com/tannerlinsley/react-table
-
 import { useTable, useBlockLayout, useSortBy } from 'react-table';
 import { FixedSizeList } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
@@ -131,7 +127,7 @@ export default function LeagueInfo({ league, preview, user }) {
       <div className="league-standings-wrapper">
         { !items.length ? 
           <div className="league-table-container">
-            <Placeholder.Paragraph />
+            <p>...</p>
           </div> : 
           <Table 
             columns={columns} 
