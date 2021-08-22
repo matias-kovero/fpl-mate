@@ -2,31 +2,45 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="shortcut icon" href="https://www.fplmate.com/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#37003c" media="(prefers-color-scheme: dark)"/>
-    <meta name="theme-color" content="#37003c" />
-    <meta
-      name="description"
-      content="Fantasy premier league companion, manage everything here. Compare players, easy fixture overview, league standings, live points + more."
-    />
-    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
-    <title>Get an advantage | FPL Mate</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <title>Svelte PWA</title>
+
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="description" content="Svelte PWA starter template" />
+    <meta name="theme-color" content="#2F3BA2" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Svelte PWA" />
+    <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="/build/bundle.css" />
+
+    <!-- You can remove this is you don't want to make your PWA installable -->
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall"
+    ></script>
+
+    <script defer src="/build/bundle.js"></script>
   </head>
+
   <body>
-    <noscript data-nosnippet>You need to enable JavaScript to run this app.</noscript>
-    <main class="ism" id="mainContent">
-      <div id="root"></div>
-    </main>
+    <noscript>
+      <div>Oops! Javascript required here! Allow it and try again!</div>
+    </noscript>
+
     <script>
-      // Register Service worker for Add to Home Screen option to work
-      if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/service-worker.js') }
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/service-worker.js").then((reg) => {
+            console.log("Service worker registered.", reg);
+          });
+        });
+      }
     </script>
   </body>
 </html>

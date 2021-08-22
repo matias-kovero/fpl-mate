@@ -1,59 +1,22 @@
 {
-  "name": "premier-app",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "bootstrap": "^4.5.3",
-    "bootstrap-sass": "^3.4.1",
-    "bootstrap-styled": "^2.7.2",
-    "font-awesome": "^4.7.0",
-    "react": "^17.0.1",
-    "react-bootstrap": "^1.4.0",
-    "react-bootstrap-typeahead": "^5.1.4",
-    "react-bs-datatable": "^2.1.2",
-    "react-burger-menu": "^3.0.3",
-    "react-cookie": "^4.0.3",
-    "react-dom": "^17.0.1",
-    "react-scripts": "4.0.1",
-    "react-table": "^7.6.3",
-    "react-window": "^1.8.6",
-    "react-window-infinite-loader": "^1.0.5",
-    "styled-components": "^5.2.1",
-    "web-vitals": "^0.2.4"
-  },
+  "name": "svelte-pwa-template",
+  "version": "1.0.4",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "resolutions": {
-    "styled-components": "^5",
-    "react-dom": "^17.0.1",
-    "react": "^17.0.1"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public",
+    "test": "echo test"
   },
   "devDependencies": {
-    "@babel/helper-builder-react-jsx": "^7.10.4"
+    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-node-resolve": "^7.0.0",
+    "rollup": "^1.20.0",
+    "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-terser": "^7.0.1",
+    "svelte": "^3.0.0"
+  },
+  "dependencies": {
+    "sirv-cli": "^0.4.4"
   }
 }
