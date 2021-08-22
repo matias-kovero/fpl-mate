@@ -1,13 +1,14 @@
 <script>
+	import Footer from './Footer/index.svelte'
 	export let name;
 </script>
 
 <main>
 	<h1>Hello {name}!</h1>
-	<p>This is a starter template for a Svelte PWA, based in the <a href="https://github.com/sveltejs/template" target="_blank">Svelte template</a></p>
-	<p>You will find the manifest.json file and the service-worker.js file in the public folder</p>
-	<p>To update the proper icons for the PWA check <i>/public/images/icons</i></p>
+	<p>Content container</p>
 </main>
+
+<Footer />
 
 <style>
 	main {
