@@ -4,26 +4,26 @@
   import Calendar from 'carbon-icons-svelte/lib/Calendar24/Calendar24.svelte';
   import Leagues from 'carbon-icons-svelte/lib/Group24/Group24.svelte';
   import Settings from 'carbon-icons-svelte/lib/Settings24/Settings24.svelte';
-  // import { page } from '$app/stores';
+  import session, { updatePage } from '../store';
 </script>
 
 <footer>
   <div class="buttons">
-    <a sveltekit:prefetch href="/" class:active={true}>
+    <div class:active={$session.user.activePage == 'Home'} on:click={() => updatePage('Home')}>
 			<Home aria-labelledby="Home" />
-		</a>
-    <a sveltekit:prefetch href="/" class:active={true}>
+		</div>
+    <div class:active={$session.user.activePage == 'Profile'} on:click={() => updatePage('Profile')}>
 			<Profile aria-labelledby="Profile" />
-		</a>
-    <a sveltekit:prefetch href="/" class:active={true}>
+		</div>
+    <div class:active={$session.user.activePage == 'Fixtures'} on:click={() => updatePage('Fixtures')}>
 			<Calendar aria-labelledby="Fixtures" />
-		</a>
-    <a sveltekit:prefetch href="/" class:active={true}>
+		</div>
+    <div class:active={$session.user.activePage == 'Leagues'} on:click={() => updatePage('Leagues')}>
 			<Leagues aria-labelledby="Leagues" />
-		</a>
-    <a sveltekit:prefetch href="/" class:active={true}>
+		</div>
+    <div class:active={$session.user.activePage == 'Settings'} on:click={() => updatePage('Settings')}>
 			<Settings aria-labelledby="Settings" />
-		</a>
+		</div>
   </div>
 </footer>
 
@@ -51,7 +51,7 @@
     border-bottom-right-radius: 1em;
     background: #000;
   }
-  .buttons a {
+  .buttons div {
     width: 100%;
 		height: 100%;
 		display: grid;
@@ -62,10 +62,10 @@
 		padding: auto;
 		-webkit-tap-highlight-color: transparent;
   }
-  .buttons a.active {
+  .buttons div.active {
     color: var(--lightpurple);
   }
-  a.active::before {
+  div.active::before {
     --size: 6px;
     content: '';
     width: 0;
@@ -76,19 +76,19 @@
     border: var(--size) solid transparent;
     border-bottom: var(--size) solid var(--lightpurple);
   }
-  .buttons a:nth-child(1).active, .buttons a:nth-child(1).active::before {
+  .buttons div:nth-child(1).active, .buttons div:nth-child(1).active::before {
     color: var(--indico);
     border-bottom-color: var(--indico) !important;
   }
-  .buttons a:nth-child(2).active, .buttons a:nth-child(2).active::before {
+  .buttons div:nth-child(2).active, .buttons div:nth-child(2).active::before {
     color: var(--cyan);
     border-bottom-color: var(--cyan) !important;
   }
-  .buttons a:nth-child(3).active, .buttons a:nth-child(3).active::before {
+  .buttons div:nth-child(3).active, .buttons div:nth-child(3).active::before {
     color: var(--neonyellow);
     border-bottom-color: var(--neonyellow) !important;
   }
-  .buttons a:nth-child(4).active, .buttons a:nth-child(4).active::before {
+  .buttons div:nth-child(4).active, .buttons div:nth-child(4).active::before {
     color: var(--darkgreen);
     border-bottom-color: var(--darkgreen) !important;
   }

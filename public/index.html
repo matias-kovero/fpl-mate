@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" color-scheme="auto">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -7,18 +7,28 @@
     <title>Get an advantage | FPL Mate</title>
 
     <link rel="manifest" href="/manifest.json" />
-    <meta name="description" content="Svelte PWA starter template" />
-    <meta name="theme-color" content="#2F3BA2" />
+    <meta name="description" content="Fantasy premier league companion, manage everything here. Compare players, easy fixture overview, league standings, live points + more." />
+    <meta name="theme-color" content="#222" />
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="Svelte PWA" />
+    <meta name="apple-mobile-web-app-title" content="FPL Mate" />
     <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png" />
 
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="shortcut icon" href="/favicon.png" />
     <link rel="stylesheet" href="/global.css" />
     <link rel="stylesheet" href="/build/bundle.css" />
-
+    <script>
+      const doc = document.firstElementChild;
+      const colors = { 'light': '#fcfdfd', 'dark': '#22282a', 'dim': '#394246' };
+      const ls = window.localStorage;
+      if (ls && ls.getItem('theme')) {
+        doc.setAttribute('color-scheme', ls.getItem('theme'));
+        // wonky way of altering statusbar color 
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', `${colors[ls.getItem('theme')]}`);
+      }
+    </script>
     <!-- You can remove this is you don't want to make your PWA installable -->
     <script
       type="module"
