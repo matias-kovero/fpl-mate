@@ -1,7 +1,10 @@
 <script>
   // Example page
+  $: isOpen = false;
 </script>
 
-<div>
-  <p>This is Profile page</p>
-</div>
+<!-- {#key isOpen}
+  <div>
+    <p>This is Profile page</p>
+  </div>
+{/key} -->

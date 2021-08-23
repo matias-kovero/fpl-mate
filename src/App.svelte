@@ -28,14 +28,16 @@
 				return PageHome
 		}
 	}
+	$: pageName = $session.user.activePage;
 </script>
+
+<!-- {#key pageName}
+	<div></div>
+{/key} -->
 
 {#if $session.user.valid}
 	<div class="content-wrapper">
 		<main>
-			<h1>Hello {name}!</h1>
-			<p>Content container</p>
-			<small>Account selected: {$session.user.valid}</small>
 			{#if $session.user.activePage}
 				<div class="wrapper">
 					<svelte:component this={loadPage()} />

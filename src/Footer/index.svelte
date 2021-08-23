@@ -28,6 +28,9 @@
 </footer>
 
 <style>
+  footer {
+    background: #FFF;
+  }
   .buttons {
     font-size: 60%;
     font-weight: 800;
