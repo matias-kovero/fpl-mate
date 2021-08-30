@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import BackButton from 'components/BackButton.svelte';
   const colors = { 'light': '#fcfdfd', 'dark': '#22282a', 'dim': '#394246' };
   let doc;
 
@@ -40,6 +41,7 @@
     </div>
     {/each}
   </div>
+  <BackButton on:click />
 </div>
 
 <style>

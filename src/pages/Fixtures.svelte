@@ -25,7 +25,7 @@
 <div class="fixtures">
   {#if higlight_match}
     <div class="content" in:fade out:fade>
-        <svelte:component this={Highlight} match={higlight_match} live={$live[gw.id]} on:click={() => closeMatch()} />
+      <svelte:component this={Highlight} match={higlight_match} live={$live[gw.id]} on:click={() => closeMatch()} />
     </div>
   {:else}
   <div class="content" in:fade out:fade>

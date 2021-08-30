@@ -32,7 +32,7 @@
   {#if $session.page.sub}
   <h2>Settings</h2>
   <div class="content">
-    <svelte:component this={loadSub()} />
+    <svelte:component this={loadSub()} on:click={() => switchSubPage(null)} close={() => switchSubPage(null)} />
   </div>
   {:else}
   <h2>Settings</h2>

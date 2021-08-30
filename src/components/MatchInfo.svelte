@@ -4,6 +4,7 @@
   import { playersFromMatch } from '../calculations';
   import Podium from './MatchPodium.svelte';
   import List from './MatchPlayerList.svelte';
+  import BackButton from './BackButton.svelte';
   export let match, live;
   $: console.log(match);
 
@@ -26,7 +27,8 @@
   <List {players} home={$team_h} away={$team_a} />
 </div>
 
-<div class="back" on:click><Close /></div>
+<!-- <div class="back" on:click><Close /></div> -->
+<BackButton on:click />
 
 <style lang="scss">
   .match {
@@ -41,18 +43,5 @@
       align-content: center;
       justify-content: space-evenly;
     }
-  }
-  .back {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    position: absolute;
-    background: var(--heading-color);
-    color: var(--surface2);
-    display: grid;
-    place-items: center;
-    left: calc(50% - 20px);
-    bottom: 53px;
-    box-shadow: 0px 2px 2px #00000038;
   }
 </style>

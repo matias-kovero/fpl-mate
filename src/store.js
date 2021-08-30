@@ -37,5 +37,19 @@ export function logOut() {
   });
 }
 
+export function setFavourite(id) {
+  session.update((state) => {
+    state.user.setFavourite(id);
+    return state;
+  });
+}
+
+export function removeUser(id) {
+  session.update((state) => {
+    state.user.delete(id);
+    return state;
+  });
+}
+
 export const fantasy = writable({});
 export default session;

@@ -26,6 +26,12 @@ export default class LocalUser {
     return this.user;
   }
   /**
+   * current default/favourite user
+   */
+  get favourite() {
+    return localStorage.getItem(keys.id);
+  }
+  /**
    * User to login.
    * @param {User} user 
    */
@@ -45,6 +51,21 @@ export default class LocalUser {
     //let p = getUserPicks(this.id, gameweek);
     // Return calculated picks ??
     return getUserPicks(this.id, gameweek);
+  }
+  /**
+   * Set an user id to default user id.
+   * @param {string} id 
+   */
+  setFavourite(id) {
+    localStorage.setItem(keys.id, id);
+  }
+  /**
+   * Remove user from our search history.
+   * @param {string} id 
+   */
+  delete(id) {
+    console.log('Removing user id', id);
+    this.history.remove(id);
   }
 }
 
@@ -111,26 +132,29 @@ class SearchHistory extends LocalStorageObject {
    * Get users search history.
    * @returns {User[]} Search history.
    */
-  get users() {
-    return this._data;
+  users() {
+    return this._getBase();
   }
   /**
    * Add search result to history.
    * @param {User} user - User added to store 
    */
   add(user) {
-    let idx = this._data.findIndex(u => u.id === user.id);
+    let idx = this._data.findIndex(u => u.id == user.id); // Ik, but handing numbers & strings
     if (idx !== -1) this._data.splice(idx, 1);
     this._data.unshift({ ...user });
     this._updateBase();
   }
   /**
    * Remove user from history.
-   * @param {User} user - User getting removed.
+   * @param {number} id - User id getting removed.
    */
-  remove(user) {
-    let idx = this._data.findIndex(u => u.id === user.id);
+  remove(id) {
+    console.log('Trying to remove');
+    let idx = this._data.findIndex(u => u.id === id); // Ik, but handing numbers & strings
+    console.log('Array id:', idx);
     if (idx > -1) this._data.splice(idx, 1);
+    console.log(this._data);
     this._updateBase();
   }
 }
