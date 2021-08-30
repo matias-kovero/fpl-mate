@@ -74,9 +74,6 @@
 </div>
 
 <style lang="scss">
-  div {
-    color: var(--text1);
-  }
   .landing-wrap {
     text-align: center;
 		padding: 1em 1em;
