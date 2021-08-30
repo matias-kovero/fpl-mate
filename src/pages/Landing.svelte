@@ -100,6 +100,7 @@
   .container {
     display: grid;
     gap: 1.5em;
+    place-items: center;
   }
   .user-search {
     width: 100%;
