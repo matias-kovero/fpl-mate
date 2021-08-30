@@ -1,5 +1,6 @@
 <script>
 	//export let name;
+	import "@fontsource/titan-one"
 	import session from './store';
 	import Footer from './components/Footer.svelte';
 	import { fade } from 'svelte/transition';
@@ -18,7 +19,7 @@
 			case 'Fixtures': return PageFix;
 			case 'Leagues': return PageLea;
 			case 'Settings': return PageSet;
-			default: return PageHom;
+			default: return Landing;
 		}
 	}
 </script>
@@ -33,9 +34,7 @@
 		{/key}
 		<Footer />
 	{:else}
-	<main>
 		<Landing />
-	</main>
 	{/if}
 </div>
 

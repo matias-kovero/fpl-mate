@@ -1,3 +1,7 @@
+@font-face {
+  font-family: 'Titan One';
+  src: url('/fonts/TitanOne-Regular.ttf') format('truetype');
+}
 * {
 	/* Brand foundation - HSV */
 	--brand-hue: 200;

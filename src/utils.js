@@ -1,4 +1,4 @@
-
+import * as api from './api';
 /**
  * Get position. If under 1%, returns 2 decimal accyracy, else 0 decimal.
  * @param {number} rank players position
@@ -68,4 +68,25 @@ export function unplayedMatches(events) {
   if (!events || !Array.isArray(events)) return false;
   let unplayed = events.filter(e => !e.finished && !e.finished_provisional);
   return !!unplayed.length;
+}
+
+export async function findUsers(str) {
+  // Will this sanitize, fixes special chars?
+  const url = `search/${encodeURIComponent(str)}`;
+  try {
+    const response = await api.get(url);
+    return response.map((i) => {
+      let [ name, team ] = i.label.split(',', 2);
+      return({
+        value: i.value,
+        id: i.value,
+        label: i.label,
+        team: team.replace(`(${i.value})`,'').trim(),
+        name
+      });
+    });
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
 }

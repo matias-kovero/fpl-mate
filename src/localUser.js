@@ -25,6 +25,22 @@ export default class LocalUser {
   get data() {
     return this.user;
   }
+  /**
+   * User to login.
+   * @param {User} user 
+   */
+  login(user) {
+    // sanity
+    if (!user.id || !user.name || !user.team) return;
+    this.history.add(user);
+    this.id = user.id;
+    this.user = getUserData(this.id);
+  }
+  logout() {
+    // current user = this.id
+    this.id = null;
+    console.log('Logged out!');
+  }
   picks(gameweek) {
     //let p = getUserPicks(this.id, gameweek);
     // Return calculated picks ??
@@ -61,7 +77,7 @@ export class PageManager extends LocalStorageObject {
   constructor() {
     super(keys.page);
     this.sub_page = null;
-    if (!this.active) this.update('Login'); // Maybe Landing?
+    if (!this.active) this.update('Landing'); // Maybe Landing?
   }
   get active() {
     return this._getBase();

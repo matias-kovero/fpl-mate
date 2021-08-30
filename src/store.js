@@ -1,7 +1,5 @@
 import { writable, get } from "svelte/store";
-import * as api from './api';
 import LocalUser, { PageManager } from './localUser';
-import { FantasyWrapper } from './fantasy'
 
 const initialSession = {
   user: new LocalUser(),
@@ -14,6 +12,8 @@ const session = writable(initialSession);
 export function switchUser(user) {
   session.update((state) => {
     state.user.login(user);
+    // Maybe this logic should not be here.
+    state.page.update('Profile');
     return state;
   });
 }
@@ -26,6 +26,13 @@ export function switchPage(page) {
 export function switchSubPage(page) {
   session.update((state) => {
     state.page.updateSub(page);
+    return state;
+  });
+}
+export function logOut() {
+  // Handling here just to trigger reactivity
+  session.update((state) => {
+    state.user.logout();
     return state;
   });
 }
