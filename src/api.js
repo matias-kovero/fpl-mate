@@ -5,7 +5,7 @@ const cache = new Map();
 
 function checkCache(key) {
   if (cache.has(key)) {
-    //console.log('[Cache]', key);
+    console.log('[Cache]', key);
     return cache.get(key);
   }
   return false;

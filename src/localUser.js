@@ -1,4 +1,5 @@
 // Stach these on some config file?
+import { getUserData, getUserPicks } from './fantasy';
 const keys = {
   id: 'user-id',
   page: 'last-page',
@@ -10,12 +11,24 @@ export default class LocalUser {
   constructor() {
     this.id = localStorage.getItem(keys.id);
     this.history = new SearchHistory();
+    this.user = null;
+    if (this.id) {
+      this.user = getUserData(this.id);
+    }
   }
   get valid() {
     return this.loggedIn();
   }
   loggedIn() {
     return !!this.id;
+  }
+  get data() {
+    return this.user;
+  }
+  picks(gameweek) {
+    //let p = getUserPicks(this.id, gameweek);
+    // Return calculated picks ??
+    return getUserPicks(this.id, gameweek);
   }
 }
 
@@ -47,14 +60,22 @@ export class PageManager extends LocalStorageObject {
    */
   constructor() {
     super(keys.page);
-    if (!this.active) this.update('Login');
+    this.sub_page = null;
+    if (!this.active) this.update('Login'); // Maybe Landing?
   }
   get active() {
     return this._getBase();
   }
+  get sub() {
+    return this.sub_page;
+  }
   update(page) {
     this._data = page;
+    this.sub_page = null; // Reset sub page, this is too fast - getting artifacts
     this._updateBase();
+  }
+  updateSub(page) {
+    this.sub_page = page;
   }
 }
 
