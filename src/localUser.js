@@ -143,6 +143,10 @@ class SearchHistory extends LocalStorageObject {
     let idx = this._data.findIndex(u => u.id == user.id); // Ik, but handing numbers & strings
     if (idx !== -1) this._data.splice(idx, 1);
     this._data.unshift({ ...user });
+    // Check if this is the only entry in search history
+    if (this._data.length == 1) {
+      localStorage.setItem(keys.id, user.id);
+    }
     this._updateBase();
   }
   /**
@@ -154,7 +158,10 @@ class SearchHistory extends LocalStorageObject {
     let idx = this._data.findIndex(u => u.id === id); // Ik, but handing numbers & strings
     console.log('Array id:', idx);
     if (idx > -1) this._data.splice(idx, 1);
-    console.log(this._data);
+    // If removed user is defaulted user, remove from default
+    if (id == localStorage.getItem(keys.id)) {
+      localStorage.setItem(keys.id, null);
+    }
     this._updateBase();
   }
 }

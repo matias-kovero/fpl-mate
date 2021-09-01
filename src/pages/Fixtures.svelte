@@ -2,9 +2,13 @@
   import { fade } from 'svelte/transition';
   import { fantasy } from '../fantasy';
   import { gameDays } from '../utils';
+  import IconLeft from 'carbon-icons-svelte/lib/ChevronLeft20';
+  import IconRight from 'carbon-icons-svelte/lib/ChevronRight20';
   import Match from '../components/Match.svelte';
+  import MatchV2 from 'components/MatchV2.svelte';
   import Highlight from '../components/MatchInfo.svelte';
 
+  $: padding = 0;
   $: gw = fantasy.current_gameweek;
   // $: fixture = fantasy.fixture(gw.id);
   // $: console.log(fixture);
@@ -20,6 +24,16 @@
   const closeMatch = () => {
     higlight_match = null;
   }
+  const changeGameweek = (str) => {
+    switch (str) {
+      case 'up':
+        padding++;
+        break;
+      case 'down':
+        padding--;
+        break;
+    }
+  }
 </script>
 
 <div class="fixtures">
@@ -29,18 +43,32 @@
     </div>
   {:else}
   <div class="content" in:fade out:fade>
+    <div class="buttons shadow">
+      <div class="btn" on:click={() => { changeGameweek('down') }}><IconLeft /></div>
+      <div>Gameweek {gw.id + padding}</div>
+      <div class="btn" on:click={() => { changeGameweek('up') }}><IconRight /></div>
+    </div>
     <div class="gameweek">
     <!-- <h2>Fixtures</h2> -->
-    {#await fantasy.fixture(gw.id)}
-      <p>Loading...</p>
+    {#await fantasy.fixture(gw.id + padding)}
+      {#each Array(10) as _, i}
+        <div class="m-skeleton">
+          <div class="team-info home">
+            <div class="text"></div>
+            <div class="logo"></div>
+          </div>
+          <div class="mid"></div>
+          <div class="team-info away">
+            <div class="logo"></div>
+            <div class="text"></div>
+          </div>
+        </div>
+      {/each}
     {:then fixture} 
       {#each gameDays(fixture) as gameday, i}
-      <div class="gameday">
-        <p>{gameday.labelArr[0]} {gameday.labelArr[2]}</p>
         {#each gameday.matches as match}
-          <Match {match} on:click={() => {showMatch(match)}} />
+          <MatchV2 {match} {gameday} on:click={() => {showMatch(match)}} />
         {/each}
-      </div>
       {/each}
     {/await}
     </div>
@@ -67,12 +95,70 @@
     display: grid;
     gap: .5em;
     border-radius: 3px;
-    box-shadow: 0px 2px 2px #00000038;
+    /* box-shadow: 0px 2px 2px #00000038; */
     /* background: linear-gradient(-45deg, var(--lg-3) 0% 15%, var(--lg-1) 15% 75%, var(--lg-2) 75% 90%, var(--lg-3) 90% 100%); */
     > .gameday {
       filter: hue-rotate(270deg);
       filter: sepia(0.6);
       background: linear-gradient(45deg, var(--lg-3) 0% 15%, var(--lg-1) 15% 75%, var(--lg-2) 75% 90%, var(--lg-3) 90% 100%);
     }
+    .m-skeleton {
+      display: grid;
+      place-items: center;
+      justify-content: center;
+      grid-template-columns: 1fr 60px 1fr;
+      background: var(--surface2);
+      height: 45px;
+      font-size: small;
+      border-radius: 5px;
+      .mid {
+        font-size: x-small;
+        color: var(--text1);
+        display: grid;
+        place-items: center;
+        background: var(--surface3);
+        border-radius: 5px;
+        height: 70%;
+        width: 80%;
+      }
+      .team-info {
+        display: grid;
+        width: 100%;
+        grid-template-columns: 1fr 40px;
+        align-items: center;
+        justify-items: end;
+        .text {
+          width: 70%;
+          height: 10px;
+          background: var(--surface3);
+          border-radius: 5px;
+        }
+        .logo {
+          width: 30px;
+          height: 30px;
+          background-color: var(--surface3);
+          border-radius: 50%;
+        }
+        &.away {
+          grid-template-columns: 40px 1fr;
+          justify-items: start;
+        }
+      }
+    }
   }
+  .buttons {
+      display: flex;
+      justify-content: space-between;
+      height: 30px;
+      align-items: center;
+      background: var(--surface2);
+      border-radius: 10px;
+      font-weight: 700;
+      margin-bottom: 1em;
+      .btn {
+        padding: 0 .5em;
+        display: grid;
+        place-items: center;
+      }
+    }
 </style>

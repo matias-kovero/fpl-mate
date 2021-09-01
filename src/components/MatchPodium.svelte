@@ -6,24 +6,28 @@
   $: first = players[0] ? getElement(players[0].player.id) : null;
   $: second = players[1] ? getElement(players[1].player.id) : null;
   $: third = players[2] ? getElement(players[2].player.id) : null;
-  let [img_1, img_2, img_3] = [getPhoto(players[0].player.code), getPhoto(players[1].player.code), getPhoto(players[2].player.code)];
+  let [img_1, img_2, img_3] = ['', '', ''];
+
+  $: if (players[0]) {
+    [img_1, img_2, img_3] = [getPhoto(players[0].player.code), getPhoto(players[1].player.code), getPhoto(players[2].player.code)];
+  }
 </script>
 
 <div class="podium-wrap">
   <div class="podium nd">
-    <div class="name">{second.web_name}</div>
+    <div class="name">{second?.web_name}</div>
     <div class="img"><img src={img_2} alt="mugshot" srcSet={`${img_2} 220w`} sizes="85px" /></div>
-    <div class="points">{players[1].sort}</div>
+    <div class="points">{players[1]?.sort}</div>
   </div>
   <div class="podium st">
-    <div class="name">{first.web_name}</div>
+    <div class="name">{first?.web_name}</div>
     <div class="img"><img src={img_1} alt="mugshot" srcSet={`${img_1} 220w`} sizes="85px" /></div>
-    <div class="points">{players[0].sort}</div>
+    <div class="points">{players[0]?.sort}</div>
   </div>
   <div class="podium rd">
-    <div class="name">{third.web_name}</div>
+    <div class="name">{third?.web_name}</div>
     <div class="img"><img src={img_3} alt="mugshot" srcSet={`${img_3} 220w`} sizes="85px" /></div>
-    <div class="points">{players[2].sort}</div>
+    <div class="points">{players[2]?.sort}</div>
   </div>
 </div>
 

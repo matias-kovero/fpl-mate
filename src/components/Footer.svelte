@@ -45,8 +45,8 @@
     place-items: center;
     z-index: 1;
     /* Mobile like corners - should we check if on mobile? */
-    border-bottom-left-radius: 1em;
-    border-bottom-right-radius: 1em;
+    /* border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em; */
     background: #000;
   }
   footer div {

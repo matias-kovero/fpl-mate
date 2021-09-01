@@ -217,6 +217,8 @@ export class FantasyWrapper {
    * @returns 
    */
   fixture(id) {
+    // We could do check here ? if going under 0, 
+    if (id < 1) id = 1;
     return this._fixture._fetch(id);
   }
 }

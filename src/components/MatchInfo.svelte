@@ -1,5 +1,4 @@
 <script>
-  import Close from 'carbon-icons-svelte/lib/Close20';
   import { getTeam, teamBadge } from '../fantasy';
   import { playersFromMatch } from '../calculations';
   import Podium from './MatchPodium.svelte';
@@ -12,8 +11,8 @@
   $: team_a = getTeam(match.team_a);
   $: badge_h = teamBadge($team_h.code);
   $: badge_a = teamBadge($team_a.code);
-  let players = playersFromMatch(match, live);
-  //$: players = playersFromMatch(match, null);
+  //let players = playersFromMatch(match, live);
+  $: players = playersFromMatch(match, live);
 </script>
 
 <div class="match">

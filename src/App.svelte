@@ -54,8 +54,9 @@
 			var(--surface1) 41.35%
 		); */
 		/* overflow: hidden; */
-		border-bottom-left-radius: 1em;
-    border-bottom-right-radius: 1em;
+		/* border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em; */
+		background: #000;
 	}
 	main {
 		text-align: center;

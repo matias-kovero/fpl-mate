@@ -33,7 +33,7 @@
     </div>
   </div>
   {#if match.started}
-  <div class="score shadow" transition:fade>
+  <div class="score shadow">
     <div class="score-end">{match.team_h_score || 0}</div>
     <div class="divider"></div>
     <div class="score-end">{match.team_a_score || 0}</div>
