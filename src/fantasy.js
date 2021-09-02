@@ -2,7 +2,7 @@ import { writable, get, derived } from "svelte/store";
 import { unplayedMatches } from './utils';
 import * as api from './api';
 
-const development = true;
+const development = false;
 
 function devFetch(url, key, resolve) {
   if (localStorage.getItem(key)) {
@@ -179,11 +179,14 @@ export class FantasyWrapper {
 
   constructor() {
     console.log('[Fanstasy] Create');
-    this.loading = true;
+    this.loading = writable(true);
+    this.ready = writable(false);
     // Initialize data
     getFantasyData().then(() => {
       console.log('[Fanstasy] Ready');
-      // this._fixture._initialLoad(this.current_gameweek.id);
+      this._fixture._initialLoad(this.current_gameweek.id);
+      this.loading.set(false);
+      this.ready.set(true);
     });
     //getFantasyData();
 
@@ -209,6 +212,7 @@ export class FantasyWrapper {
    */
   get current_gameweek() {
     let gw = get(events).find(e => e.is_current);
+    console.log('It seems it is gw:', gw);
     return gw;
   }
   /**
@@ -268,4 +272,9 @@ export function teamBadge(code) {
     big: `https://fpl-server.vercel.app/dist/img/badges/badge_${code}_80.png`,
     small: `https://fpl-server.vercel.app/dist/img/badges/badge_${code}_40.png`
   }
+}
+
+export async function getStandings(id, page) {
+  const response = await api.get(`api/leagues-classic/${id}/standings/?page_new_entries=1&page_standings=${page}`);
+  return response;
 }

@@ -14,7 +14,7 @@
   // $: console.log(fixture);
 
   // Testing live data fetching...
-  $: live = fantasy._fixture._live(gw.id);
+  $: live = fantasy._fixture._live(gw ? gw.id : 1);
   $: higlight_match = null;
 
   const showMatch = (m) => {
@@ -52,17 +52,17 @@
     <!-- <h2>Fixtures</h2> -->
     {#await fantasy.fixture(gw.id + padding)}
       {#each Array(10) as _, i}
-        <div class="m-skeleton">
-          <div class="team-info home">
-            <div class="text"></div>
-            <div class="logo"></div>
-          </div>
-          <div class="mid"></div>
-          <div class="team-info away">
-            <div class="logo"></div>
-            <div class="text"></div>
-          </div>
+      <div class="m-skeleton">
+        <div class="team-info home">
+          <div class="text skeleton"></div>
+          <div class="logo skeleton"></div>
         </div>
+        <div class="mid skeleton"></div>
+        <div class="team-info away">
+          <div class="logo skeleton"></div>
+          <div class="text skeleton"></div>
+        </div>
+      </div>
       {/each}
     {:then fixture} 
       {#each gameDays(fixture) as gameday, i}
@@ -97,11 +97,6 @@
     border-radius: 3px;
     /* box-shadow: 0px 2px 2px #00000038; */
     /* background: linear-gradient(-45deg, var(--lg-3) 0% 15%, var(--lg-1) 15% 75%, var(--lg-2) 75% 90%, var(--lg-3) 90% 100%); */
-    > .gameday {
-      filter: hue-rotate(270deg);
-      filter: sepia(0.6);
-      background: linear-gradient(45deg, var(--lg-3) 0% 15%, var(--lg-1) 15% 75%, var(--lg-2) 75% 90%, var(--lg-3) 90% 100%);
-    }
     .m-skeleton {
       display: grid;
       place-items: center;
@@ -149,7 +144,7 @@
   .buttons {
       display: flex;
       justify-content: space-between;
-      height: 30px;
+      height: 40px;
       align-items: center;
       background: var(--surface2);
       border-radius: 10px;

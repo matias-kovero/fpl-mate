@@ -2,6 +2,7 @@
 	//export let name;
 	import "@fontsource/titan-one"
 	import session from './store';
+	import { fantasy } from './fantasy';
 	import Footer from './components/Footer.svelte';
 	import { fade } from 'svelte/transition';
 	// Pages - maybe use dynamic import?
@@ -12,7 +13,12 @@
 	import PageLea from	'./pages/Leagues.svelte';
 	import PageSet from './pages/Settings/index.svelte';
 
+	$: ready = fantasy.ready;
+
 	function loadPage() {
+		if (!$ready) {
+			console.log('Not yet ready');
+		}
 		switch ($session.page.active) {
 			case 'Home': return PageHom;
 			case 'Profile': return PagePro;
@@ -22,17 +28,27 @@
 			default: return Landing;
 		}
 	}
+	$: console.log('[Main App] Loading...', $session.user.valid, $session.user.id, $ready);
+
+	/* $: {
+		ready = fantasy.ready;
+	} */
+
 </script>
 <div class="content-wrap">
 	{#if $session.user.valid}
-		{#key $session.page.active}
-			<main>
-				<div class="content" in:fade out:fade>
-					<svelte:component this={loadPage()} />
-				</div>
-			</main>
-		{/key}
-		<Footer />
+		{#if $ready}
+			{#key $session.page.active}
+				<main>
+					<div class="content" in:fade out:fade>
+						<svelte:component this={loadPage()} />
+					</div>
+				</main>
+			{/key}
+			<Footer />
+		{:else}
+			<p>Loading...</p>
+		{/if}
 	{:else}
 		<Landing />
 	{/if}

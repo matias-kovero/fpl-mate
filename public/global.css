@@ -258,8 +258,25 @@ button:focus {
 ::-webkit-scrollbar {
 	width: 0px;
 	cursor: pointer;
+	display: none;
 }
 ::-webkit-scrollbar-thumb {
 	background: rgba(50, 50, 50, 0.2);
 	border-radius: 5px;
+}
+
+
+.skeleton {
+	opacity: .5;
+	animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+	0% {
+		background-color: var(--surface3);
+	}
+
+	100% {
+		background-color: var(--surface4);
+	}
 }

@@ -40,7 +40,7 @@ export default class LocalUser {
     if (!user.id || !user.name || !user.team) return;
     this.history.add(user);
     this.id = user.id;
-    this.user = getUserData(this.id);
+    this.user = getUserData(user.id);
   }
   logout() {
     // current user = this.id
@@ -50,6 +50,7 @@ export default class LocalUser {
   picks(gameweek) {
     //let p = getUserPicks(this.id, gameweek);
     // Return calculated picks ??
+    console.log('getting picks for', this.id);
     return getUserPicks(this.id, gameweek);
   }
   /**
@@ -64,7 +65,6 @@ export default class LocalUser {
    * @param {string} id 
    */
   delete(id) {
-    console.log('Removing user id', id);
     this.history.remove(id);
   }
 }
